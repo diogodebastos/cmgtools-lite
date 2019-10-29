@@ -44,7 +44,7 @@ elif year == 2017:
     triggers["FR_1mu_iso"] = [] # they probably existed but we didn't use them in 2017
 elif year == 2016:
     from CMGTools.RootTools.samples.triggers_13TeV_DATA2016 import all_triggers as triggers
-    triggers["FR_1mu_noiso_smpd"] = [] 
+    triggers["FR_1mu_noiso_smpd"] = []
 
 
 DatasetsAndTriggers = []
@@ -78,10 +78,10 @@ if analysis == "main":
     DatasetsAndTriggers.append( ("SingleElectron", triggers["1e_iso"]) if year != 2018 else (None,None) )
 elif analysis == "frqcd":
     mcSamples = byCompName(mcSamples_, [
-        "QCD_Mu15", "QCD_Pt(20|30|50|80|120|170)to.*_Mu5", 
-        "QCD_Pt(20|30|50|80|120|170)to.*_EMEn.*", 
-      (r"QCD_Pt(20|30|50|80|120|170)to\d+$"       if year == 2018 else  
-        "QCD_Pt(20|30|50|80|120|170)to.*_bcToE.*" ),        
+        "QCD_Mu15", "QCD_Pt(20|30|50|80|120|170)to.*_Mu5",
+        "QCD_Pt(20|30|50|80|120|170)to.*_EMEn.*",
+      (r"QCD_Pt(20|30|50|80|120|170)to\d+$"       if year == 2018 else
+        "QCD_Pt(20|30|50|80|120|170)to.*_bcToE.*" ),
         "WJetsToLNu_LO", "DYJetsToLL_M50_LO", "DYJetsToLL_M10to50_LO", "TT(Lep|Semi)_pow"
     ])
     egfrpd = {2016:"DoubleEG", 2017:"SingleElectron", 2018:"EGamma"}[year]
@@ -206,13 +206,13 @@ if analysis == "frqcd":
     cropToLumi(byCompName(selectedComponents,["QCD"]), 0.3)
     cropToLumi(byCompName(selectedComponents,["QCD_Pt\d+to\d+$"]), 0.1)
     configureSplittingFromTime(selectedComponents, 20, 3, maxFiles=8)
-    configureSplittingFromTime(byCompName(selectedComponents, ["EGamma","Single.*Run2017.*","SingleMuon_Run2018.*"]), 10, 4, maxFiles=12) 
-    configureSplittingFromTime(byCompName(selectedComponents, ["WJ","TT","DY","QCD_Mu15"]), 60, 3, maxFiles=6) 
-    configureSplittingFromTime(byCompName(selectedComponents, [r"QCD_Pt\d+to\d+$","QCD.*EME"]), 60, 3, maxFiles=6) 
+    configureSplittingFromTime(byCompName(selectedComponents, ["EGamma","Single.*Run2017.*","SingleMuon_Run2018.*"]), 10, 4, maxFiles=12)
+    configureSplittingFromTime(byCompName(selectedComponents, ["WJ","TT","DY","QCD_Mu15"]), 60, 3, maxFiles=6)
+    configureSplittingFromTime(byCompName(selectedComponents, [r"QCD_Pt\d+to\d+$","QCD.*EME"]), 60, 3, maxFiles=6)
 
 
 # print summary of components to process
-if getHeppyOption("justSummary"): 
+if getHeppyOption("justSummary"):
     printSummary(selectedComponents)
     sys.exit(0)
 
@@ -239,7 +239,7 @@ POSTPROCESSOR = PostProcessor(None, [], modules = modules,
 
 test = getHeppyOption("test")
 if test == "94X-MC":
-    TTLep_pow = kreator.makeMCComponent("TTLep_pow", "/TTTo2L2Nu_mtop166p5_TuneCP5_PSweights_13TeV-powheg-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM", "CMS", ".*root", 831.76*((3*0.108)**2) )
+    TTLep_pow  = kreator.makeMCComponent("TTLep_pow", "/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2/MINIAODSIM", "CMS", ".*root", 831.76*((3*0.108)**2) )
     TTLep_pow.files = ["/afs/cern.ch/user/g/gpetrucc/cmg/NanoAOD_94X_TTLep.root"]
     lepSkim.requireSameSignPair = False
     lepSkim.minJets = 0
@@ -247,10 +247,10 @@ if test == "94X-MC":
     lepSkim.prescaleFactor = 0
     selectedComponents = [TTLep_pow]
 elif test == "94X-MC-miniAOD":
-    TTLep_pow = kreator.makeMCComponent("TTLep_pow", "/TTTo2L2Nu_mtop166p5_TuneCP5_PSweights_13TeV-powheg-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM", "CMS", ".*root", 831.76*((3*0.108)**2) )
-    TTLep_pow.files = [ 'root://cms-xrd-global.cern.ch//store/mc/RunIIFall17MiniAOD/TTTo2L2Nu_mtop166p5_TuneCP5_PSweights_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/70000/3CC234EB-44E0-E711-904F-FA163E0DF774.root' ]
-    localfile = os.path.expandvars("/tmp/$USER/%s" % os.path.basename(TTLep_pow.files[0]))
-    if os.path.exists(localfile): TTLep_pow.files = [ localfile ] 
+    TTLep_pow  = kreator.makeMCComponent("TTLep_pow", "/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14-v2/MINIAODSIM", "CMS", ".*root", 831.76*((3*0.108)**2) )
+    #TTLep_pow.files = [ 'root://cms-xrd-global.cern.ch//store/mc/RunIIFall17MiniAOD/TTTo2L2Nu_mtop166p5_TuneCP5_PSweights_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/70000/3CC234EB-44E0-E711-904F-FA163E0DF774.root' ]
+    #localfile = os.path.expandvars("/tmp/$USER/%s" % os.path.basename(TTLep_pow.files[0]))
+    #if os.path.exists(localfile): TTLep_pow.files = [ localfile ]
     from CMGTools.Production.nanoAODPreprocessor import nanoAODPreprocessor
     TTLep_pow.preprocessor = nanoAODPreprocessor("/afs/cern.ch/work/g/gpetrucc/ttH/CMSSW_10_4_0/src/nanov4_NANO_cfg.py")
     selectedComponents = [TTLep_pow]
