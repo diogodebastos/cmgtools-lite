@@ -724,7 +724,7 @@ if runOtherMC2:
         QCD_HT1500to2000,
         QCD_HT2000toInf,
         TTW_LO,
-        TTWToLNu_ext
+        TTWToLNu_ext,
         TTGJets,
         TTGJets_ext,
         TTZ_LO,
@@ -761,7 +761,7 @@ if runOtherMC2:
         ] + QCD_Mu5s + QCD_EMs
     elif year == 2016:
         selectedComponents += [
-            QCD_HT50to100
+            QCD_HT50to100,
             TBar_tWch_ext,
             T_tch_powheg,
             T_tWch_ext,

@@ -24,7 +24,7 @@ SMS_T2_4bd_genMET_80_mStop_500_mLSP_490
 ]
 
 signalFastSim = [
-SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1
+SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1,
 SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1_ext1
 ]
 
