@@ -17,7 +17,7 @@ ZJetsToNuNuHT = [
     ZJetsToNuNu_HT200to400,
     ZJetsToNuNu_HT400to600,
     ZJetsToNuNu_HT600to800,
-    ZJetsToNuNu_HT800t1200,
+    ZJetsToNuNu_HT800to1200,
     ZJetsToNuNu_HT1200to2500,
     ZJetsToNuNu_HT2500toInf,
 ]

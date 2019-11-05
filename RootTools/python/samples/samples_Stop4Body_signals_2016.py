@@ -45,22 +45,12 @@ SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1,
 SMS_T2bW_X05_dM_10to80_genHT_160_genMET_80_mWMin_0p1,
 ]
 
-### -----2017
-## FullSIM ###
-#XS(genAnalyzer) = 0.1523 +/- 0.0008689 pb :  kFactor = 6.56599 ERROR  f(negw): 0.004 +- 0.000 -> 0.1523*6.56599
-SMS_T2_4bd_genMET_80_mStop_500_mLSP_420 = kreator.makeMCComponent("SMS_T2_4bd_genMET_80_mStop_500_mLSP_420","/SMS-T2-4bd_genMET-80_mStop-500_mLSP-420_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", "CMS", ".*root",0.1523*6.56599)
-#XS(genAnalyzer) = 0.1444 +/- 0.001218 pb :  kFactor = 6.92521 ERROR  f(negw): 0.003 +- 0.000 -> 0.1444*6.92521
-SMS_T2_4bd_genMET_80_mStop_500_mLSP_490 = kreator.makeMCComponent("SMS_T2_4bd_genMET_80_mStop_500_mLSP_490","/SMS-T2-4bd_genMET-80_mStop-500_mLSP-490_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM", "CMS", ".*root", 0.1444*6.92521)
-
-signalFullSim2017 = [
-SMS_T2_4bd_genMET_80_mStop_500_mLSP_420,
-SMS_T2_4bd_genMET_80_mStop_500_mLSP_490
-]
 
 ### ----------------------------- summary ----------------------------------------
 
 signalSamples = SignalSUSY
-samples = signalSamples + signalFullSim + signalFullSim2017
+signalFastSim = SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1
+samples = signalFastSim + signalFullSim
 
 ### ---------------------------------------------------------------------
 
@@ -68,7 +58,7 @@ from CMGTools.TTHAnalysis.setup.Efficiencies import *
 dataDir = "$CMSSW_BASE/src/CMGTools/TTHAnalysis/data"
 
 #Define splitting
-for comp in signalSamples:
+for comp in signalFastSim:
     comp.isMC = True
     comp.isData = False
     comp.isFastSim = True
@@ -79,11 +69,6 @@ for comp in signalFullSim:
     comp.isData = False
     comp.isFastSim = False
     comp.splitFactor = 250 #  if comp.name in [ "WJets", "DY3JetsM50", "DY4JetsM50","W1Jets","W2Jets","W3Jets","W4Jets","TTJetsHad" ] else 100
-
-for comp in signalFullSim2017:
-    comp.isMC = True
-    comp.isData = False
-    comp.isFastSim = False
 
 if __name__ == "__main__":
     from CMGTools.RootTools.samples.tools import runMain

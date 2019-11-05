@@ -23,15 +23,132 @@ removeJecUncertainty = getHeppyOption("removeJecUncertainty",False)
 skipT1METCorr = getHeppyOption("skipT1METCorr",False)
 isTest = getHeppyOption("test",None) != None and not re.match("^\d+$",getHeppyOption("test"))
 allGenParts = getHeppyOption("allGenParts", False)
-run2017 = getHeppyOption("run2017", True)
 
+year = int(getHeppyOption("year", "2017"))
 
-#Assume by default to run on TTbar, only run on other background samples if specifically asked for
 runTTJets = getHeppyOption("runTTJets", False)
 runWJets = getHeppyOption("runWJets", False)
 runZInv = getHeppyOption("runZInv", False)
 runOtherMC1 = getHeppyOption("runOtherMC1", False)
 runOtherMC2 = getHeppyOption("runOtherMC2", False)
+
+# Samples and Triggers
+if year == 2018:
+    from CMGTools.RootTools.samples.samples_13TeV_RunIIAutumn18MiniAOD.py import *
+    from CMGTools.RootTools.samples.samples_Stop4Body_signals_2018 import *
+    from CMGTools.RootTools.samples.samples_13TeV_DATA2018 import *
+    from CMGTools.RootTools.samples.triggers_13TeV_DATA2018 import *
+    triggerFlagsAna.triggerBits = {
+    'DoubleMu' : triggers_mumu_iso,
+    'DoubleMuSS' : triggers_mumu_ss,
+    'DoubleMuNoIso' : triggers_mumu_noniso,
+    'DoubleEl' : triggers_ee,
+    'MuEG'     : triggers_mue,
+    'DoubleMuHT' : triggers_mumu_ht,
+    'DoubleElHT' : triggers_ee_ht,
+    'MuEGHT' : triggers_mue_ht,
+    'TripleEl' : triggers_3e,
+    'TripleMu' : triggers_3mu,
+    'DoubleMuEl' : triggers_2mu1e,
+    'DoubleElMu' : triggers_2e1mu,
+    'SingleMu' : triggers_1mu_iso,
+    'SingleEl'     : triggers_1e_iso,
+
+    'JetHTPD': triggers_pfht,
+    'MET': triggers_met,
+    }
+    triggerFlagsAna.unrollbits = True
+    triggerFlagsAna.saveIsUnprescaled = True
+    triggerFlagsAna.checkL1Prescale = True
+
+elif year == 2017:
+    from CMGTools.RootTools.samples.samples_13TeV_RunIIFall17MiniAOD import *
+    from CMGTools.RootTools.samples.samples_Stop4Body_signals_2017 import *
+    from CMGTools.RootTools.samples.samples_13TeV_DATA2017 import *
+    from CMGTools.RootTools.samples.triggers_13TeV_DATA2017 import *
+    triggerFlagsAna.triggerBits = {
+    'DoubleMu' : triggers_mumu_iso,
+    'DoubleMuSS' : triggers_mumu_ss,
+    'DoubleMuNoIso' : triggers_mumu_noniso,
+    'DoubleEl' : triggers_ee,
+    'MuEG'     : triggers_mue,
+    'DoubleMuHT' : triggers_mumu_ht,
+    'DoubleElHT' : triggers_ee_ht,
+    'MuEGHT' : triggers_mue_ht,
+    'TripleEl' : triggers_3e,
+    'TripleMu' : triggers_3mu,
+    'DoubleMuEl' : triggers_2mu1e,
+    'DoubleElMu' : triggers_2e1mu,
+    'SingleMu' : triggers_1mu_iso,
+    'SingleEl'     : triggers_1e_iso,
+    'SOSHighMET' : triggers_SOS_highMET,
+#    'SOSDoubleMuLowMET' : triggers_SOS_doublemulowMET,
+#    'SOSTripleMu' : triggers_SOS_tripleMu,
+#    'LepTau' : triggers_leptau,
+#    'MET' : triggers_metNoMu90_mhtNoMu90,
+    #'MonoJet80MET90' : triggers_Jet80MET90,
+    #'MonoJet80MET120' : triggers_Jet80MET120,
+    #'METMu5' : triggers_MET120Mu5,
+    'JetHTPD': triggers_pfht,
+    'MET': triggers_met,
+    }
+    triggerFlagsAna.unrollbits = True
+    triggerFlagsAna.saveIsUnprescaled = True
+    triggerFlagsAna.checkL1Prescale = True
+elif year == 2016:
+    from CMGTools.RootTools.samples.samples_13TeV_RunIISummer16MiniAODv2 import *
+    from CMGTools.RootTools.samples.samples_Stop4Body_signals_2016 import *
+    from CMGTools.RootTools.samples.samples_13TeV_DATA2016 import *
+    from CMGTools.RootTools.samples.triggers_13TeV_Spring16_degStop import *
+    triggerFlagsAna.triggerBits = {}
+    for trigger in  triggers:
+        trigger_name = "trigger_{trig}".format(trig=trigger.replace("_v*","") )
+        HLT_name = "{trig}".format(trig=trigger.replace("_v*","").replace("HLT_","") )
+        triggerFlagsAna.triggerBits[HLT_name] = eval( trigger_name )
+        triggerFlagsAna.unrollbits = False
+        triggerFlagsAna.saveIsUnprescaled = False
+        triggerFlagsAna.checkL1prescale = False
+    #triggerFlagsAna.triggerBits = {
+    #  'HT2000': ['HLT_HT2000_v*'],
+    #  'Ele25_eta2p1_WPTight_Gsf': ['HLT_Ele25_eta2p1_WPTight_Gsf_v*'],
+    #  'PFMET110_PFMHT110_IDTight': ['HLT_PFMET110_PFMHT110_IDTight_v*'],
+    #  'PFJet450': ['HLT_PFJet450_v*'],
+    #  'PFMETNoMu100_PFMHTNoMu100_IDTight': ['HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v*'],
+    #  'Ele25_WPTight_Gsf': ['HLT_Ele25_WPTight_Gsf_v*'],
+    #  'IsoMu27': ['HLT_IsoMu27_v*'],
+    #  'Mu3er_PFHT140_PFMET125': ['HLT_Mu3er_PFHT140_PFMET125_v*'],
+    #  'MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight': ['HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v*'],
+    #  'Ele32_eta2p1_WPTight_Gsf': ['HLT_Ele32_eta2p1_WPTight_Gsf_v*'],
+    #  'MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight': ['HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v*'],
+    #  'PFMETNoMu90_PFMHTNoMu90_IDTight': ['HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v*'],
+    #  'AK8PFJet450': ['HLT_AK8PFJet450_v*'],
+    #  'Ele22_eta2p1_WPLoose_Gsf': ['HLT_Ele22_eta2p1_WPLoose_Gsf_v*'],
+    #  'MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight': ['HLT_MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight_v*'],
+    #  'PFMET120_PFMHT120_IDTight': ['HLT_PFMET120_PFMHT120_IDTight_v*'],
+    #  'Mu50': ['HLT_Mu50_v*'],
+    #  'IsoMu22_eta2p1': ['HLT_IsoMu22_eta2p1_v*'],
+    #  'MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight': ['HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v*'],
+    #  'Ele24_eta2p1_WPLoose_Gsf': ['HLT_Ele24_eta2p1_WPLoose_Gsf_v*'],
+    #  'HT2500': ['HLT_HT2500_v*'],
+    #  'PFMET120_Mu5': ['HLT_PFMET120_Mu5_v*'],
+    #  'PFHT800': ['HLT_PFHT800_v*'],
+    #  'PFHT900': ['HLT_PFHT900_v*'],
+    #  'PFMET90_PFMHT90_IDTight': ['HLT_PFMET90_PFMHT90_IDTight_v*'],
+    #  'Ele27_WPTight_Gsf': ['HLT_Ele27_WPTight_Gsf_v*'],
+    #  'PFMET170_NoiseCleaned': ['HLT_PFMET170_NoiseCleaned_v*'],
+    #  'IsoTkMu22_eta2p1': ['HLT_IsoTkMu22_eta2p1_v*'],
+    #  'Ele27_eta2p1_WPLoose_Gsf_HT200': ['HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v*'],
+    #  'IsoTkMu24': ['HLT_IsoTkMu24_v*'],
+    #  'IsoMu22': ['HLT_IsoMu22_v*'],
+    #  'IsoMu24': ['HLT_IsoMu24_v*'],
+    #  'IsoTkMu22': ['HLT_IsoTkMu22_v*'],
+    #  'Ele25_eta2p1_WPLoose_Gsf': ['HLT_Ele25_eta2p1_WPLoose_Gsf_v*'],
+    #  'IsoTkMu27': ['HLT_IsoTkMu27_v*'],
+    #  'PFMET100_PFMHT100_IDTight': ['HLT_PFMET100_PFMHT100_IDTight_v*'],
+    #  'Ele27_eta2p1_WPTight_Gsf': ['HLT_Ele27_eta2p1_WPTight_Gsf_v*'],
+    #  'PFMETNoMu110_PFMHTNoMu110_IDTight': ['HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v*'],
+    #  'PFMETNoMu120_PFMHTNoMu120_IDTight': ['HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v*']
+    #}
 
 
 # --- LEPTON SKIMMING ---
@@ -104,15 +221,19 @@ if not removeJecUncertainty:
     #susyCoreSequence.insert(susyCoreSequence.index(jetAna)+1, jetAnaScaleUp)
     #susyCoreSequence.insert(susyCoreSequence.index(metAna)+1, metAnaScaleDown)
     #susyCoreSequence.insert(susyCoreSequence.index(metAna)+1, metAnaScaleUp)
-
-myMCGlobalTag = "Summer16_23Sep2016V3_MC"
-#myDataGlobalTag = "Spring16_25nsV8BCD_DATA Spring16_25nsV8E_DATA Spring16_25nsV8F_DATA Spring16_25nsV8_DATA"
-#myDataRuns      = [276811, 277420, 278802]
-myDataGlobalTag = [(1, 'Summer16_23Sep2016BCDV3_DATA'), (276831, 'Summer16_23Sep2016EFV3_DATA'), (278802, 'Summer16_23Sep2016GV3_DATA'), (280919, 'Summer16_23Sep2016HV3_DATA')]
-
-if run2017:
+if year == 2018:
+    myMCGlobalTag = "Autumn18_V8_MC"
+    #https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2018Analysis#DATA
+    myDataGlobalTag = [(1, "Autumn18_RunA_V8_DATA"),(316998,"Autumn18_RunB_V8_DATA"),(319313,"Autumn18_RunC_V8_DATA"),(320394,"Autumn18_RunD_V8_DATA")]
+elif year == 2017:
     myMCGlobalTag = "Fall17_17Nov2017_V6_MC"
+    # https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2017Analysis#DATA
     myDataGlobalTag =  [(1,"Fall17_17Nov2017B_V6_DATA"),(299337,"Fall17_17Nov2017C_V6_DATA"),(302030,"Fall17_17Nov2017D_V6_DATA"),(303435,"Fall17_17Nov2017E_V6_DATA"),(304911,"Fall17_17Nov2017F_V6_DATA")]
+elif year == 2016:
+    myMCGlobalTag = "Summer16_23Sep2016V3_MC"
+    #myDataGlobalTag = "Spring16_25nsV8BCD_DATA Spring16_25nsV8E_DATA Spring16_25nsV8F_DATA Spring16_25nsV8_DATA"
+    #myDataRuns      = [276811, 277420, 278802]
+    myDataGlobalTag = [(1, 'Summer16_23Sep2016BCDV3_DATA'), (276831, 'Summer16_23Sep2016EFV3_DATA'), (278802, 'Summer16_23Sep2016GV3_DATA'), (280919, 'Summer16_23Sep2016HV3_DATA')]
 
 jetAna.jetPt = 20.
 if not removeJecUncertainty:
@@ -240,7 +361,7 @@ if not removeJecUncertainty:
 
 isoTrackAna.setOff = False
 
-if not run2017:
+if year == 2016:
     isoTrackAna.useLegacy2016 = True
 
 genAna.allGenTaus = True
@@ -421,93 +542,6 @@ jsonAna.useLumiBlocks = True
 #    #treeProducer.globalVariables.append(NTupleVariable("Flag_badChargedHadronFilter", lambda ev: ev.badChargedHadron, help="bad charged hadron filter decision"))
 #    #treeProducer.globalVariables.append(NTupleVariable("Flag_badMuonFilter", lambda ev: ev.badMuon, help="bad muon filter decision"))
 
-#-------- SAMPLES AND TRIGGERS -----------
-if not run2017:
-    #from CMGTools.RootTools.samples.triggers_13TeV_DATA2016 import *
-    from CMGTools.RootTools.samples.triggers_13TeV_Spring16_degStop import *
-    triggerFlagsAna.triggerBits = {}
-    for trigger in  triggers:
-        trigger_name = "trigger_{trig}".format(trig=trigger.replace("_v*","") )
-        HLT_name = "{trig}".format(trig=trigger.replace("_v*","").replace("HLT_","") )
-        triggerFlagsAna.triggerBits[HLT_name] = eval( trigger_name )
-        triggerFlagsAna.unrollbits = False
-        triggerFlagsAna.saveIsUnprescaled = False
-        triggerFlagsAna.checkL1prescale = False
-else:
-    #example: https://github.com/diogodebastos/cmgtools-lite/blob/2e70cfcb301f608cf89b6fb27bd3795051024b32/TTHAnalysis/cfg/run_ttH_cfg.py#L184
-    from CMGTools.RootTools.samples.triggers_13TeV_DATA2017 import *
-    triggerFlagsAna.triggerBits = {
-    'DoubleMu' : triggers_mumu_iso,
-    'DoubleMuSS' : triggers_mumu_ss,
-    'DoubleMuNoIso' : triggers_mumu_noniso,
-    'DoubleEl' : triggers_ee,
-    'MuEG'     : triggers_mue,
-    'DoubleMuHT' : triggers_mumu_ht,
-    'DoubleElHT' : triggers_ee_ht,
-    'MuEGHT' : triggers_mue_ht,
-    'TripleEl' : triggers_3e,
-    'TripleMu' : triggers_3mu,
-    'DoubleMuEl' : triggers_2mu1e,
-    'DoubleElMu' : triggers_2e1mu,
-    'SingleMu' : triggers_1mu_iso,
-    'SingleEl'     : triggers_1e_iso,
-    'SOSHighMET' : triggers_SOS_highMET,
-#    'SOSDoubleMuLowMET' : triggers_SOS_doublemulowMET,
-#    'SOSTripleMu' : triggers_SOS_tripleMu,
-#    'LepTau' : triggers_leptau,
-#    'MET' : triggers_metNoMu90_mhtNoMu90,
-    #'MonoJet80MET90' : triggers_Jet80MET90,
-    #'MonoJet80MET120' : triggers_Jet80MET120,
-    #'METMu5' : triggers_MET120Mu5,
-    'JetHTPD': triggers_pfht,
-    'MET': triggers_met,
-    }
-    triggerFlagsAna.unrollbits = True
-    triggerFlagsAna.saveIsUnprescaled = True
-    triggerFlagsAna.checkL1Prescale = True
-
-#triggerFlagsAna.triggerBits = {
-#  'HT2000': ['HLT_HT2000_v*'],
-#  'Ele25_eta2p1_WPTight_Gsf': ['HLT_Ele25_eta2p1_WPTight_Gsf_v*'],
-#  'PFMET110_PFMHT110_IDTight': ['HLT_PFMET110_PFMHT110_IDTight_v*'],
-#  'PFJet450': ['HLT_PFJet450_v*'],
-#  'PFMETNoMu100_PFMHTNoMu100_IDTight': ['HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v*'],
-#  'Ele25_WPTight_Gsf': ['HLT_Ele25_WPTight_Gsf_v*'],
-#  'IsoMu27': ['HLT_IsoMu27_v*'],
-#  'Mu3er_PFHT140_PFMET125': ['HLT_Mu3er_PFHT140_PFMET125_v*'],
-#  'MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight': ['HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v*'],
-#  'Ele32_eta2p1_WPTight_Gsf': ['HLT_Ele32_eta2p1_WPTight_Gsf_v*'],
-#  'MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight': ['HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v*'],
-#  'PFMETNoMu90_PFMHTNoMu90_IDTight': ['HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v*'],
-#  'AK8PFJet450': ['HLT_AK8PFJet450_v*'],
-#  'Ele22_eta2p1_WPLoose_Gsf': ['HLT_Ele22_eta2p1_WPLoose_Gsf_v*'],
-#  'MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight': ['HLT_MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight_v*'],
-#  'PFMET120_PFMHT120_IDTight': ['HLT_PFMET120_PFMHT120_IDTight_v*'],
-#  'Mu50': ['HLT_Mu50_v*'],
-#  'IsoMu22_eta2p1': ['HLT_IsoMu22_eta2p1_v*'],
-#  'MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight': ['HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v*'],
-#  'Ele24_eta2p1_WPLoose_Gsf': ['HLT_Ele24_eta2p1_WPLoose_Gsf_v*'],
-#  'HT2500': ['HLT_HT2500_v*'],
-#  'PFMET120_Mu5': ['HLT_PFMET120_Mu5_v*'],
-#  'PFHT800': ['HLT_PFHT800_v*'],
-#  'PFHT900': ['HLT_PFHT900_v*'],
-#  'PFMET90_PFMHT90_IDTight': ['HLT_PFMET90_PFMHT90_IDTight_v*'],
-#  'Ele27_WPTight_Gsf': ['HLT_Ele27_WPTight_Gsf_v*'],
-#  'PFMET170_NoiseCleaned': ['HLT_PFMET170_NoiseCleaned_v*'],
-#  'IsoTkMu22_eta2p1': ['HLT_IsoTkMu22_eta2p1_v*'],
-#  'Ele27_eta2p1_WPLoose_Gsf_HT200': ['HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v*'],
-#  'IsoTkMu24': ['HLT_IsoTkMu24_v*'],
-#  'IsoMu22': ['HLT_IsoMu22_v*'],
-#  'IsoMu24': ['HLT_IsoMu24_v*'],
-#  'IsoTkMu22': ['HLT_IsoTkMu22_v*'],
-#  'Ele25_eta2p1_WPLoose_Gsf': ['HLT_Ele25_eta2p1_WPLoose_Gsf_v*'],
-#  'IsoTkMu27': ['HLT_IsoTkMu27_v*'],
-#  'PFMET100_PFMHT100_IDTight': ['HLT_PFMET100_PFMHT100_IDTight_v*'],
-#  'Ele27_eta2p1_WPTight_Gsf': ['HLT_Ele27_eta2p1_WPTight_Gsf_v*'],
-#  'PFMETNoMu110_PFMHTNoMu110_IDTight': ['HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v*'],
-#  'PFMETNoMu120_PFMHTNoMu120_IDTight': ['HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v*']
-#}
-
 
 #if runSMS:
 #    susyCoreSequence.remove(triggerFlagsAna)
@@ -516,49 +550,74 @@ else:
 
 selectedComponents = []
 
-from CMGTools.RootTools.samples.samples_Stop4Body import *
-if not run2017:
-    from CMGTools.RootTools.samples.samples_13TeV_RunIISummer16MiniAODv2 import *
-    #from CMGTools.RootTools.samples.samples_13TeV_signals import *
-    #from CMGTools.RootTools.samples.samples_13TeV_80X_susySignalsPriv import *
-    from CMGTools.RootTools.samples.samples_13TeV_DATA2016 import *
-
+if runTTJets:
     selectedComponents = [
         TTJets,
-        TT_pow,
-    #    TT_pow_backup,
-        TTJets_SingleLeptonFromTbar,
-        TTJets_SingleLeptonFromTbar_ext,
-        TTJets_SingleLeptonFromT,
-        TTJets_SingleLeptonFromT_ext,
-        TTJets_DiLepton,
-        TTJets_DiLepton_ext,
-        TTJets_LO_HT600to800_ext,
-        TTJets_LO_HT800to1200_ext,
-        TTJets_LO_HT1200to2500_ext,
-        TTJets_LO_HT2500toInf_ext,
     ]
+    if year == 2018:
+        selectedComponents += [
 
-    if runWJets:
-        selectedComponents = [
+        ]
+    elif year == 2017:
+        selectedComponents += [
+            TTHad_pow,
+            TTLep_pow,
+            TTSemi_pow,
+            TTJets_madgraph,
+        ]
+    elif year == 2016:
+        selectedComponents += [
+            TT_pow,
+            #    TT_pow_backup,
+            TTJets_SingleLeptonFromTbar,
+            TTJets_SingleLeptonFromTbar_ext,
+            TTJets_SingleLeptonFromT,
+            TTJets_SingleLeptonFromT_ext,
+            TTJets_DiLepton,
+            TTJets_DiLepton_ext,
+            TTJets_LO_HT600to800_ext,
+            TTJets_LO_HT800to1200_ext,
+            TTJets_LO_HT1200to2500_ext,
+            TTJets_LO_HT2500toInf_ext,
+        ]
+    for comp in selectedComponents:
+        comp.splitFactor = 3000
+
+
+if runWJets:
+    selectedComponents = [
+        WJetsToLNu_HT100to200,
+        WJetsToLNu_HT200to400,
+        WJetsToLNu_HT400to600,
+        WJetsToLNu_HT600to800,
+        WJetsToLNu_HT800to1200,
+        WJetsToLNu_HT1200to2500,
+        WJetsToLNu_HT2500toInf,
+    ]
+    if year == 2018:
+        selectedComponents += [
+
+        ]
+    elif year == 2017:
+        selectedComponents += [
+            W1JetsToLNu_LO,
+            W2JetsToLNu_LO,
+            W3JetsToLNu_LO,
+            W4JetsToLNu_LO,
+        ]
+    elif year == 2016:
+        selectedComponents += [
             WJetsToLNu,
             WJetsToLNu_LO,
             WJetsToLNu_HT70to100,
-            WJetsToLNu_HT100to200,
             WJetsToLNu_HT100to200_ext,
             WJetsToLNu_HT100to200_ext2,
-            WJetsToLNu_HT200to400,
             WJetsToLNu_HT200to400_ext,
             WJetsToLNu_HT200to400_ext2,
-            WJetsToLNu_HT400to600,
             WJetsToLNu_HT400to600_ext,
-            WJetsToLNu_HT600to800,
             WJetsToLNu_HT600to800_ext,
-            WJetsToLNu_HT800to1200,
             WJetsToLNu_HT800to1200_ext,
-            WJetsToLNu_HT1200to2500,
             WJetsToLNu_HT1200to2500_ext,
-            WJetsToLNu_HT2500toInf,
             WJetsToLNu_HT2500toInf_ext,
             WJetsToLNu_Pt_100to250,
             WJetsToLNu_Pt_100to250_ext,
@@ -569,29 +628,74 @@ if not run2017:
             WJetsToLNu_Pt_600toInf,
             WJetsToLNu_Pt_600toInf_ext,
         ]
+    for comp in selectedComponents:
+        comp.splitFactor = 500
 
-    if runZInv:
-        selectedComponents = [
+if runZInv:
+    selectedComponents = [
             ZJetsToNuNu_HT100to200,
-            ZJetsToNuNu_HT100to200_ext,
             ZJetsToNuNu_HT200to400,
-            ZJetsToNuNu_HT200to400_ext,
             ZJetsToNuNu_HT400to600,
-            ZJetsToNuNu_HT400to600_ext,
             ZJetsToNuNu_HT600to800,
             ZJetsToNuNu_HT800to1200,
             ZJetsToNuNu_HT1200to2500,
-            ZJetsToNuNu_HT1200to2500_ext,
             ZJetsToNuNu_HT2500toInf,
         ]
+    if year == 2018:
+        selectedComponents += [
 
-    if runOtherMC1:
-        selectedComponents = [
-            WW,
+        ]
+    elif year == 2017:
+        selectedComponents += [
+
+        ]
+    elif year == 2016:
+        selectedComponents += [
+            ZJetsToNuNu_HT100to200_ext,
+            ZJetsToNuNu_HT200to400_ext,
+            ZJetsToNuNu_HT400to600_ext,
+            ZJetsToNuNu_HT1200to2500_ext,
+        ]
+    for comp in selectedComponents:
+        comp.splitFactor = 450
+
+if runOtherMC1:
+    selectedComponents = [
+        WW,
+        WZ,
+        ZZ,
+        DYJetsToLL_M50_HT100to200,
+        DYJetsToLL_M50_HT200to400,
+        DYJetsToLL_M50_HT400to600,
+        DYJetsToLL_M50_HT600to800,
+        DYJetsToLL_M50_HT800to1200,
+        DYJetsToLL_M50_HT1200to2500,
+        DYJetsToLL_M50_HT2500toInf,
+    ]
+    if year == 2018:
+        selectedComponents += []
+    elif year == 2017:
+        selectedComponents += [
+            DYJetsToLL_M50,
+            DYJetsToLL_M50_ext,
+            DYJetsToLL_M50_LO,
+            DYJetsToLL_M50_LO_ext,
+            DYJetsToLL_M4to50_HT100to200,
+            DYJetsToLL_M4to50_HT100to200_ext1,
+            DYJetsToLL_M4to50_HT200to400,
+            DYJetsToLL_M4to50_HT200to400_ext1,
+            DYJetsToLL_M4to50_HT400to600,
+            DYJetsToLL_M4to50_HT400to600_ext1,
+            DYJetsToLL_M4to50_HT600toInf,
+            DYJetsToLL_M4to50_HT600toInf_ext1,
+            DYJetsToLL_M50_HT100to200_ext1,
+            DYJetsToLL_M50_HT200to400_ext1,
+            DYJetsToLL_M50_HT400to600_ext1,
+        ]
+    elif year == 2016:
+        selectedComponents += [
             WW_ext,
-            WZ,
             WZ_ext,
-            ZZ,
             ZZ_ext,
             DYJetsToLL_M5to50_HT100to200,
             DYJetsToLL_M5to50_HT100to200_ext,
@@ -602,62 +706,123 @@ if not run2017:
             DYJetsToLL_M5to50_HT600toInf,
             DYJetsToLL_M5to50_HT600toInf_ext,
             DYJetsToLL_M50_HT70to100,
-            DYJetsToLL_M50_HT100to200,
             DYJetsToLL_M50_HT100to200_ext,
-            DYJetsToLL_M50_HT200to400,
             DYJetsToLL_M50_HT200to400_ext,
-            DYJetsToLL_M50_HT400to600,
             DYJetsToLL_M50_HT400to600_ext,
-            DYJetsToLL_M50_HT600to800,
-            DYJetsToLL_M50_HT800to1200,
-            DYJetsToLL_M50_HT1200to2500,
-            DYJetsToLL_M50_HT2500toInf,
         ]
-    if runOtherMC2:
-        selectedComponents = [
+    for comp in selectedComponents:
+        comp.splitFactor = 2800
+
+if runOtherMC2:
+    selectedComponents = [
+        QCD_HT100to200,
+        QCD_HT200to300,
+        QCD_HT300to500,
+        QCD_HT500to700,
+        QCD_HT700to1000,
+        QCD_HT1000to1500,
+        QCD_HT1500to2000,
+        QCD_HT2000toInf,
+        TTW_LO,
+        TTWToLNu_ext
+        TTGJets,
+        TTGJets_ext,
+        TTZ_LO,
+        TTZToLLNuNu_m1to10,
+    ]
+
+    if year == 2018:
+        selectedComponents += []
+    elif year == 2017:
+        selectedComponents += [
+            T_sch_lep,
+            T_tch,
+            TBar_tch,
+            T_tWch_noFullyHad,
+            TBar_tWch_noFullyHad,
+            TTWToLNu_fxfx,
+            TTW_LO_ext,
+            TTZToLLNuNu_amc,
+            TTZToLLNuNu_amc_PS,
+            TTZ_LO_ext,
+            TTH_pow,
+            TTHnobb_fxfx,
+            TTHnobb_pow,
+            TTHnobb_pow_ext,
+            TTHtautau_pow,
+            TZQToLL,
+            TTTT,
+            TTWH,
+            TTZH,
+            TTWW,
+            TTHH,
+            TTTJ,
+            TTTW,
+        ] + QCD_Mu5s + QCD_EMs
+    elif year == 2016:
+        selectedComponents += [
+            QCD_HT50to100
             TBar_tWch_ext,
             T_tch_powheg,
             T_tWch_ext,
             TBar_tch_powheg,
-            QCD_HT50to100,
-            QCD_HT100to200,
-            QCD_HT200to300,
             QCD_HT200to300_ext,
-            QCD_HT300to500,
             QCD_HT300to500_ext,
-            QCD_HT500to700,
             QCD_HT500to700_ext,
-            QCD_HT700to1000,
             QCD_HT700to1000_ext,
-            QCD_HT1000to1500,
             QCD_HT1000to1500_ext,
-            QCD_HT1500to2000,
             QCD_HT1500to2000_ext,
-            QCD_HT2000toInf,
             QCD_HT2000toInf_ext,
-            TTW_LO,
             TTWToQQ,
-            TTWToLNu_ext,
             TTWToLNu_ext2,
-            TTGJets,
-            TTGJets_ext,
-            TTZ_LO,
             TTZToLLNuNu_ext,
-            TTZToLLNuNu_m1to10,
             TTZToQQ,
         ]
-    if runSMS: # For running on signal
-        #from CMGTools.RootTools.samples.samples_13TeV_80X_susySignalsPriv import *
-        #selectedComponents = [ SMS_T2tt_genHT_160_genMET_80_mStop_275_mLSP_205 ]
-        #selectedComponents = [ SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1 ]
-        selectedComponents = signalSamples
-        selectedComponents = [ SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1 ]
+    for comp in selectedComponents:
+        comp.splitFactor = 1100
 
-    if runFullSimSignal:
-        selectedComponents = signalFullSim
+if runSMS: # For running on signal
+    selectedComponents = signalFastSim
+    for comp in selectedComponents:
+        comp.splitFactor = 500
 
-    if runData: # For running on data
-        selectedComponents = [
+if runFullSimSignal:
+    selectedComponents = signalFullSim
+    for comp in selectedComponents:
+        comp.splitFactor = 500
+
+if runData: # For running on data
+    if year == 2018:
+        selectedComponents += []
+    elif year == 2017:
+        selectedComponents += [
+            JetHT_Run2017B_17Nov2017,
+            JetHT_Run2017C_17Nov2017,
+            JetHT_Run2017D_17Nov2017,
+            JetHT_Run2017E_17Nov2017,
+            JetHT_Run2017F_17Nov2017,
+            MET_Run2017B_17Nov2017,
+            MET_Run2017C_17Nov2017,
+            MET_Run2017D_17Nov2017,
+            MET_Run2017E_17Nov2017,
+            MET_Run2017F_17Nov2017,
+            SingleElectron_Run2017B_17Nov2017,
+            SingleElectron_Run2017C_17Nov2017,
+            SingleElectron_Run2017D_17Nov2017,
+            SingleElectron_Run2017E_17Nov2017,
+            SingleElectron_Run2017F_17Nov2017,
+            SingleMuon_Run2017B_17Nov2017,
+            SingleMuon_Run2017C_17Nov2017,
+            SingleMuon_Run2017D_17Nov2017,
+            SingleMuon_Run2017E_17Nov2017,
+            SingleMuon_Run2017F_17Nov2017,
+        ]
+        for comp in selectedComponents:
+            comp.json = "$CMSSW_BASE/src/CMGTools/TTHAnalysis/data/json/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"
+            comp.splitFactor = 2800
+
+    elif year == 2016:
+        selectedComponents += [
             JetHT_Run2016B_03Feb2017_v2,
             JetHT_Run2016C_03Feb2017,
             JetHT_Run2016D_03Feb2017,
@@ -693,162 +858,10 @@ if not run2017:
         ]
         for comp in selectedComponents:
             comp.json = "$CMSSW_BASE/src/CMGTools/TTHAnalysis/data/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
-        #if test != 0 and jsonAna in susyCoreSequence: susyCoreSequence.remove(jsonAna)
-else:
-    from CMGTools.RootTools.samples.samples_13TeV_RunIIFall17MiniAOD import *
-    from CMGTools.RootTools.samples.samples_13TeV_DATA2017 import *
-    if runTTJets:
-        selectedComponents = [
-            TTJets,
-            #TTJets_SingleLeptonFromT, #Missing XS
-            TTHad_pow,
-            TTLep_pow,
-            TTSemi_pow,
-            TTJets_madgraph,
-        ]
-        for comp in selectedComponents:
-            comp.splitFactor = 3000
-
-    if runWJets:
-        selectedComponents = [
-#            WJetsToLNu_LO,     #status=PRODUCTION
-            W1JetsToLNu_LO,    #status=PRODUCTION
-            W2JetsToLNu_LO,    #status=PRODUCTION
-            W3JetsToLNu_LO,
-            W4JetsToLNu_LO,
-            #WJetsToLNu_HT70To100,
-            WJetsToLNu_HT100To200,
-            WJetsToLNu_HT200To400,
-            WJetsToLNu_HT400To600,
-            WJetsToLNu_HT600To800,
-            WJetsToLNu_HT800To1200,
-            WJetsToLNu_HT1200To2500,
-            WJetsToLNu_HT2500ToInf,
-        ]
-        for comp in selectedComponents:
-            comp.splitFactor = 500
-
-    if runZInv:
-        selectedComponents = [
-            ZJetsToNuNu_HT100to200,
-            ZJetsToNuNu_HT200to400,
-            ZJetsToNuNu_HT400to600,
-            ZJetsToNuNu_HT600to800,
-            ZJetsToNuNu_HT800t1200,
-            ZJetsToNuNu_HT1200to2500,
-            ZJetsToNuNu_HT2500toInf,
-        ]
-        for comp in selectedComponents:
-            comp.splitFactor = 450
-
-    if runOtherMC1:
-        selectedComponents = [
-            WW,
-            WZ,
-            ZZ,
-            DYJetsToLL_M50,
-            DYJetsToLL_M50_ext,
-            DYJetsToLL_M50_LO,
-            DYJetsToLL_M50_LO_ext,
-            #DYJetsToLL_M4to50_HT70to100,
-            DYJetsToLL_M4to50_HT100to200,
-            DYJetsToLL_M4to50_HT100to200_ext1,
-            DYJetsToLL_M4to50_HT200to400,
-            DYJetsToLL_M4to50_HT200to400_ext1,
-            DYJetsToLL_M4to50_HT400to600,
-            DYJetsToLL_M4to50_HT400to600_ext1,
-            DYJetsToLL_M4to50_HT600toInf,
-            DYJetsToLL_M4to50_HT600toInf_ext1,
-            DYJetsToLL_M50_HT100to200,
-            DYJetsToLL_M50_HT100to200_ext1,
-            DYJetsToLL_M50_HT200to400,
-            DYJetsToLL_M50_HT200to400_ext1,
-            DYJetsToLL_M50_HT400to600,
-            DYJetsToLL_M50_HT400to600_ext1,
-            DYJetsToLL_M50_HT600to800,
-            DYJetsToLL_M50_HT800to1200,
-            DYJetsToLL_M50_HT1200to2500,
-            DYJetsToLL_M50_HT2500toInf,
-        ]
-        for comp in selectedComponents:
             comp.splitFactor = 2800
 
-    if runOtherMC2:
-        selectedComponents = [
-            T_sch_lep,
-            T_tch,
-            TBar_tch,
-            T_tWch_noFullyHad,
-            TBar_tWch_noFullyHad,
-            QCD_HT100to200,
-            QCD_HT200to300,
-            QCD_HT300to500,
-            QCD_HT500to700,
-            QCD_HT700to1000,
-            QCD_HT1000to1500,
-            QCD_HT1500to2000,
-            QCD_HT2000toInf,
-            TTGJets,
-            TTGJets_ext,
-            TTWToLNu_fxfx,
-            TTW_LO,
-            TTW_LO_ext,
-            TTZToLLNuNu_amc,
-            TTZToLLNuNu_amc_PS,
-            TTZ_LO,
-            TTZ_LO_ext,
-            TTZToLLNuNu_m1to10,
-            TTH_pow,
-            TTHnobb_fxfx,
-            TTHnobb_pow,
-            TTHnobb_pow_ext,
-            TTHtautau_pow,
-            TZQToLL,
-            TTTT,
-            TTWH,
-            TTZH,
-            TTWW,
-            TTHH,
-            TTTJ,
-            TTTW,
-        ] + QCD_Mu5s + QCD_EMs
-        for comp in selectedComponents:
-            comp.splitFactor = 1100
 
-    if runSMS:
-        selectedComponents = []
 
-    if runFullSimSignal:
-        selectedComponents = signalFullSim2017
-        for comp in selectedComponents:
-            comp.splitFactor = 500
-
-    if runData:
-        selectedComponents = [
-            JetHT_Run2017B_17Nov2017,
-            JetHT_Run2017C_17Nov2017,
-            JetHT_Run2017D_17Nov2017,
-            JetHT_Run2017E_17Nov2017,
-            JetHT_Run2017F_17Nov2017,
-            MET_Run2017B_17Nov2017,
-            MET_Run2017C_17Nov2017,
-            MET_Run2017D_17Nov2017,
-            MET_Run2017E_17Nov2017,
-            MET_Run2017F_17Nov2017,
-            SingleElectron_Run2017B_17Nov2017,
-            SingleElectron_Run2017C_17Nov2017,
-            SingleElectron_Run2017D_17Nov2017,
-            SingleElectron_Run2017E_17Nov2017,
-            SingleElectron_Run2017F_17Nov2017,
-            SingleMuon_Run2017B_17Nov2017,
-            SingleMuon_Run2017C_17Nov2017,
-            SingleMuon_Run2017D_17Nov2017,
-            SingleMuon_Run2017E_17Nov2017,
-            SingleMuon_Run2017F_17Nov2017,
-        ]
-        for comp in selectedComponents:
-            comp.json = "$CMSSW_BASE/src/CMGTools/TTHAnalysis/data/json/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"
-            comp.splitFactor = 2800
 
 #ISR jet counting
 from CMGTools.TTHAnalysis.analyzers.nIsrAnalyzer import NIsrAnalyzer
@@ -933,5 +946,5 @@ subprocess.call(args)
 config = cfg.Config( components = selectedComponents,
                      sequence = sequence,
                      services = outputService,
-                     preprocessor = preprocessor,
+#                     preprocessor = preprocessor,
                      events_class = event_class)
