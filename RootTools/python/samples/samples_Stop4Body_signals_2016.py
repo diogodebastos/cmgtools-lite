@@ -49,7 +49,7 @@ SMS_T2bW_X05_dM_10to80_genHT_160_genMET_80_mWMin_0p1,
 ### ----------------------------- summary ----------------------------------------
 
 signalSamples = SignalSUSY
-signalFastSim = SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1
+signalFastSim = [SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1]
 samples = signalFastSim + signalFullSim
 
 ### ---------------------------------------------------------------------
