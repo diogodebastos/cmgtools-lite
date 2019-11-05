@@ -34,9 +34,9 @@ runOtherMC2 = getHeppyOption("runOtherMC2", False)
 
 # Samples and Triggers
 if year == 2018:
-    from CMGTools.RootTools.samples.samples_13TeV_RunIIAutumn18MiniAOD.py import *
+    from CMGTools.RootTools.samples.samples_13TeV_RunIIAutumn18MiniAOD import *
     from CMGTools.RootTools.samples.samples_Stop4Body_signals_2018 import *
-    from CMGTools.RootTools.samples.samples_13TeV_DATA2018 import *
+    from CMGTools.RootTools.samples.samples_13TeV_DATA2018_MiniAOD import *
     from CMGTools.RootTools.samples.triggers_13TeV_DATA2018 import *
     triggerFlagsAna.triggerBits = {
     'DoubleMu' : triggers_mumu_iso,
