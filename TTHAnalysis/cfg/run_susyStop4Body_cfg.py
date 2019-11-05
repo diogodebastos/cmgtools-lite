@@ -465,7 +465,7 @@ else:
     triggerFlagsAna.unrollbits = True
     triggerFlagsAna.saveIsUnprescaled = True
     triggerFlagsAna.checkL1Prescale = True
-    
+
 #triggerFlagsAna.triggerBits = {
 #  'HT2000': ['HLT_HT2000_v*'],
 #  'Ele25_eta2p1_WPTight_Gsf': ['HLT_Ele25_eta2p1_WPTight_Gsf_v*'],
@@ -708,7 +708,7 @@ else:
         ]
         for comp in selectedComponents:
             comp.splitFactor = 3000
-        
+
     if runWJets:
         selectedComponents = [
 #            WJetsToLNu_LO,     #status=PRODUCTION
@@ -740,7 +740,7 @@ else:
         ]
         for comp in selectedComponents:
             comp.splitFactor = 450
-            
+
     if runOtherMC1:
         selectedComponents = [
             WW,
@@ -750,14 +750,21 @@ else:
             DYJetsToLL_M50_ext,
             DYJetsToLL_M50_LO,
             DYJetsToLL_M50_LO_ext,
-            DYJetsToLL_M4to50_HT70to100,
+            #DYJetsToLL_M4to50_HT70to100,
             DYJetsToLL_M4to50_HT100to200,
+            DYJetsToLL_M4to50_HT100to200_ext1,
             DYJetsToLL_M4to50_HT200to400,
+            DYJetsToLL_M4to50_HT200to400_ext1,
             DYJetsToLL_M4to50_HT400to600,
+            DYJetsToLL_M4to50_HT400to600_ext1,
             DYJetsToLL_M4to50_HT600toInf,
+            DYJetsToLL_M4to50_HT600toInf_ext1,
             DYJetsToLL_M50_HT100to200,
+            DYJetsToLL_M50_HT100to200_ext1,
             DYJetsToLL_M50_HT200to400,
+            DYJetsToLL_M50_HT200to400_ext1,
             DYJetsToLL_M50_HT400to600,
+            DYJetsToLL_M50_HT400to600_ext1,
             DYJetsToLL_M50_HT600to800,
             DYJetsToLL_M50_HT800to1200,
             DYJetsToLL_M50_HT1200to2500,
@@ -765,10 +772,10 @@ else:
         ]
         for comp in selectedComponents:
             comp.splitFactor = 2800
-            
+
     if runOtherMC2:
         selectedComponents = [
-            T_sch_lep, #TODO: Look for TBar. Hasn't been created until date.
+            T_sch_lep,
             T_tch,
             TBar_tch,
             T_tWch_noFullyHad,
@@ -781,37 +788,41 @@ else:
             QCD_HT1000to1500,
             QCD_HT1500to2000,
             QCD_HT2000toInf,
-            TTGJets, 
-            TTWToLNu_fxfx, 
-            TTW_LO, 
-            TTZToLLNuNu_amc, 
-            TTZToLLNuNu_amc_psw, 
-            TTZ_LO, 
-            TTZToLLNuNu_m1to10, 
-            TTH_pow, 
-            TTHnobb_fxfx, 
-            TTHnobb_pow, 
-            TTHtautau_pow,  
+            TTGJets,
+            TTGJets_ext,
+            TTWToLNu_fxfx,
+            TTW_LO,
+            TTW_LO_ext,
+            TTZToLLNuNu_amc,
+            TTZToLLNuNu_amc_PS,
+            TTZ_LO,
+            TTZ_LO_ext,
+            TTZToLLNuNu_m1to10,
+            TTH_pow,
+            TTHnobb_fxfx,
+            TTHnobb_pow,
+            TTHnobb_pow_ext,
+            TTHtautau_pow,
             TZQToLL,
-            TTTT, 
-            TTWH, 
-            #TTZH, 
-            #TTWW, 
-            #TTHH, 
-            #TTTJ, 
+            TTTT,
+            TTWH,
+            TTZH,
+            TTWW,
+            TTHH,
+            TTTJ,
             TTTW,
         ] + QCD_Mu5s + QCD_EMs
         for comp in selectedComponents:
             comp.splitFactor = 1100
-            
+
     if runSMS:
         selectedComponents = []
-    
+
     if runFullSimSignal:
         selectedComponents = signalFullSim2017
         for comp in selectedComponents:
             comp.splitFactor = 500
-            
+
     if runData:
         selectedComponents = [
             JetHT_Run2017B_17Nov2017,
@@ -838,7 +849,7 @@ else:
         for comp in selectedComponents:
             comp.json = "$CMSSW_BASE/src/CMGTools/TTHAnalysis/data/json/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"
             comp.splitFactor = 2800
-            
+
 #ISR jet counting
 from CMGTools.TTHAnalysis.analyzers.nIsrAnalyzer import NIsrAnalyzer
 nISRAna = cfg.Analyzer(NIsrAnalyzer, name="NIsrAnalyzer",)
@@ -895,7 +906,7 @@ if comp.isData:
     GT = myDataGlobalTag
 else:
     GT = myMCGlobalTag
-    
+
 preprocessorFile = "$CMSSW_BASE/tmp/MetType1_fixEE2017_%s.py"%(GT)
 preprocessor = CmsswPreprocessor(preprocessorFile)
 
