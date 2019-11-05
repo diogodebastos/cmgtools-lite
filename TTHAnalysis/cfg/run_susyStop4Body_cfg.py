@@ -619,14 +619,14 @@ if runWJets:
             WJetsToLNu_HT800to1200_ext,
             WJetsToLNu_HT1200to2500_ext,
             WJetsToLNu_HT2500toInf_ext,
-            WJetsToLNu_Pt_100to250,
-            WJetsToLNu_Pt_100to250_ext,
-            WJetsToLNu_Pt_250to400,
-            WJetsToLNu_Pt_250to400_ext,
-            WJetsToLNu_Pt_400to600,
-            WJetsToLNu_Pt_400to600_ext,
-            WJetsToLNu_Pt_600toInf,
-            WJetsToLNu_Pt_600toInf_ext,
+            #WJetsToLNu_Pt_100to250,
+            #WJetsToLNu_Pt_100to250_ext,
+            #WJetsToLNu_Pt_250to400,
+            #WJetsToLNu_Pt_250to400_ext,
+            #WJetsToLNu_Pt_400to600,
+            #WJetsToLNu_Pt_400to600_ext,
+            #WJetsToLNu_Pt_600toInf,
+            #WJetsToLNu_Pt_600toInf_ext,
         ]
     for comp in selectedComponents:
         comp.splitFactor = 500
