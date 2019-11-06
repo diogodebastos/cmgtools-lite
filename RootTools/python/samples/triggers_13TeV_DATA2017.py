@@ -67,7 +67,15 @@ triggers_ak8pfjet = ['HLT_AK8PFJet500_v*']
 # AK8 PF Jet: not in 2017B, lower thresholds are prescaled
 triggers_ak8pfjet_mass30 = ['HLT_AK8PFJet%d_TrimMass30_v*' % pt for pt in (360, 380, 400)]
 
+# HT:
+triggers_pfht = ["HLT_PFHT780_v*",   # Rate: about 1 Hz with HLT prescale of 128 (from MC)
+                 "HLT_PFHT1050_v*"]  # Pure HT path (unprescaled)
 
+triggers_met = [#"HLT_PFMET90_PFMHT90_IDTight_v*",
+                "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v*",
+                "HLT_PFMET110_PFMHT110_IDTight_v*",
+                "HLT_PFMET120_PFMHT120_IDTight_v*",
+                "HLT_PFMET120_PFMHT120_IDTight_PFHT60_v*"]
 
 #MET
 triggers_met120_mht120 = ["HLT_PFMET120_PFMHT120_IDTight_v*"]

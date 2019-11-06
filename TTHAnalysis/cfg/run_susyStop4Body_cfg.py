@@ -100,6 +100,7 @@ elif year == 2016:
     from CMGTools.RootTools.samples.samples_Stop4Body_signals_2016 import *
     from CMGTools.RootTools.samples.samples_13TeV_DATA2016 import *
     from CMGTools.RootTools.samples.triggers_13TeV_Spring16_degStop import *
+    #from CMGTools.RootTools.samples.triggers_13TeV_DATA2016 import *
     triggerFlagsAna.triggerBits = {}
     for trigger in  triggers:
         trigger_name = "trigger_{trig}".format(trig=trigger.replace("_v*","") )
@@ -222,9 +223,16 @@ if not removeJecUncertainty:
     #susyCoreSequence.insert(susyCoreSequence.index(metAna)+1, metAnaScaleDown)
     #susyCoreSequence.insert(susyCoreSequence.index(metAna)+1, metAnaScaleUp)
 if year == 2018:
-    myMCGlobalTag = "Autumn18_V8_MC"
     #https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2018Analysis#DATA
+
+    myMCGlobalTag = "Autumn18_V8_MC"
     myDataGlobalTag = [(1, "Autumn18_RunA_V8_DATA"),(316998,"Autumn18_RunB_V8_DATA"),(319313,"Autumn18_RunC_V8_DATA"),(320394,"Autumn18_RunD_V8_DATA")]
+
+    #myMCGlobalTag = "Autumn18_17Sep2018_V8_MC"
+    #myDataGlobalTag = [(1, "Autumn18_17Sep2018A_V8_DATA"),(316998,"Autumn18_17Sep2018B_V8_DATA"),(319313,"Autumn18_17Sep2018C_V8_DATA"),(320394,"Autumn18_17Sep2018D_V8_DATA")]
+ 
+    myMCGlobalTag = "Fall17_17Nov2017_V6_MC"
+    myDataGlobalTag =  [(1,"Fall17_17Nov2017B_V6_DATA"),(299337,"Fall17_17Nov2017C_V6_DATA"),(302030,"Fall17_17Nov2017D_V6_DATA"),(303435,"Fall17_17Nov2017E_V6_DATA"),(304911,"Fall17_17Nov2017F_V6_DATA")]
 elif year == 2017:
     myMCGlobalTag = "Fall17_17Nov2017_V6_MC"
     # https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2017Analysis#DATA
