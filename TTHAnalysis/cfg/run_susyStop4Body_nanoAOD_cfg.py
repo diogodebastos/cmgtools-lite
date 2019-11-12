@@ -3,7 +3,6 @@
 ##########################################################
 
 import re, os, sys
-import PhysicsTools.HeppyCore.framework.config as cfg
 from CMGTools.RootTools.samples.configTools import printSummary, mergeExtensions, doTestN, configureSplittingFromTime, cropToLumi
 from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 from CMGTools.RootTools.samples.autoAAAconfig import autoAAA
@@ -151,11 +150,11 @@ if justSummary:
     sys.exit(0)
 
 
-#from CMGTools.TTHAnalysis.tools.nanoAOD.s4b_modules import *
-from CMGTools.TTHAnalysis.tools.nanoAOD.ttH_modules import *
+from CMGTools.TTHAnalysis.tools.nanoAOD.s4b_modules import *
+#from CMGTools.TTHAnalysis.tools.nanoAOD.ttH_modules import *
 from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import PostProcessor
 
-modules = ttH_sequence_step1
+modules = s4b_sequence_step1
 cut = None
 compression = "ZLIB:3" #"LZ4:4" #"LZMA:9"
 branchsel_in = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/python/tools/nanoAOD/branchsel_in.txt"
@@ -172,14 +171,14 @@ sys.exit(0)
 # ==== NEED THIS =====
 
 #add LHE Analyzer
-#from PhysicsTools.Heppy.analyzers.gen.LHEAnalyzer import LHEAnalyzer
-#LHEAna = LHEAnalyzer.defaultConfig
-#susyCoreSequence.insert(susyCoreSequence.index(ttHCoreEventAna),LHEAna)
+from PhysicsTools.Heppy.analyzers.gen.LHEAnalyzer import LHEAnalyzer
+LHEAna = LHEAnalyzer.defaultConfig
+susyCoreSequence.insert(susyCoreSequence.index(ttHCoreEventAna),LHEAna)
 
 #ISR jet counting
-#from CMGTools.TTHAnalysis.analyzers.nIsrAnalyzer import NIsrAnalyzer
-#nISRAna = cfg.Analyzer(NIsrAnalyzer, name="NIsrAnalyzer",)
-#susyCoreSequence.insert(susyCoreSequence.index(ttHCoreEventA a), nISRAna)
+from CMGTools.TTHAnalysis.analyzers.nIsrAnalyzer import NIsrAnalyzer
+nISRAna = cfg.Analyzer(NIsrAnalyzer, name="NIsrAnalyzer",)
+susyCoreSequence.insert(susyCoreSequence.index(ttHCoreEventA a), nISRAna)
 
 # =======================================================
 
