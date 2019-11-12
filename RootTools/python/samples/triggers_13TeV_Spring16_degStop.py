@@ -1,10 +1,10 @@
-################## 
+##################
 ## Triggers for HLT_MC_SPRING15 and Run II
 ## Based on HLT_MC_SPRING15 and /frozen/2015/25ns14e33/v2.1/HLT/V1 and /frozen/2015/50ns_5e33/v2.1/HLT/V5
 
 
 ### ----> for the degStop
-        
+
 METTriggers = \
 [\
  # CLEANUP # 'HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV_p067_v*',
@@ -149,9 +149,12 @@ JetHTPDTriggers=\
    #"HLT_PFHT650_WideJetMJJ900DEtaJJ1p5_v*",
    #"HLT_DiCentralPFJet170_CFMax0p1_v*",
 ]
-                                               
-triggers = METTriggers + SingleMuonPDTriggers + SingleElPDTriggers + JetHTPDTriggers
 
-for trigger in  triggers:
-  trigger_name = "trigger_{trig}".format(trig=trigger.replace("_v*","") )
-  exec("{trig_name}  =  [ '{trig}'] ".format(trig_name = trigger_name, trig=trigger))
+#triggers = METTriggers + SingleMuonPDTriggers + SingleElPDTriggers + JetHTPDTriggers
+
+#for trigger in  triggers:
+#  trigger_name = "trigger_{trig}".format(trig=trigger.replace("_v*","") )
+#  exec("{trig_name}  =  [ '{trig}'] ".format(trig_name = trigger_name, trig=trigger))
+
+### Wrap all in a dictionary for easier importing of multiple years
+all_triggers = dict((x.replace("triggers_",""),y) for (x,y) in locals().items() if x.startswith("triggers_") and isinstance(y,list))
