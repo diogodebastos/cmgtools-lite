@@ -3,6 +3,18 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collect
 from PhysicsTools.NanoAODTools.postprocessing.tools import deltaR
 import math
 
+# From: https://github.com/sscruz/nanoAOD-tools/blob/legacy_edge/python/postprocessing/modules/EdgeZ/susyReweight.py
+def isInDecayOf(daught, mother, gens):
+    isIn = False
+    idx = gens.index(daught)
+    while (idx > -1):
+        if idx != gens.index(mother):
+            idx = gens[idx].genPartIdxMother # mother is not the mother of daught, trying with the mother of daught
+        else:
+            isIn = True
+            break
+    return isIn
+
 class nISRcounter( Module ):
     def __init__(self,
             jetSel = lambda jet : True):
@@ -14,28 +26,37 @@ class nISRcounter( Module ):
         self.wrappedOutputTree.branch("nIsr","F")
 
     def analyze(self, event):
-        jets = filter(self.jetSel, Collection(event, 'Jet'))
-        genParticles = Collection(event, 'GenPart')
+        leps = [ x for x in Collection(event, "Electron")] + [ x for x in Collection(event, "Muon")]
+        jets = [ x for x in Collection(event, "Jet")]
+        genParticles = [ x for x in Collection(event, "GenPart")]
+        #jets = filter(self.jetSel, Collection(event, 'Jet'))
+        #genParticles = Collection(event, 'GenPart')
 
         #Can only be performed on MC
         #if not isMC: return True
-        event.nIsr = 0
+        nIsr = 0
         for jet in jets:
             matched = False
+            skip = False
+            for lep in leps:
+                if deltaR(jet,lep) < 0.4:
+                    skip = True
+                    break
+            if skip: continue
             for part in genParticles:
+                if part.status != 23 or abs(part.pdgId)>5: continue
+                if part.genPartIdxMother < 0: continue
+                mom = genParticles[part.genPartIdxMother]
+                momid = abs(mom.pdgId)
+                if momid not in [6,23,24,25] and momid < 1e6: continue
+                for part2 in genParticles:
+                    if isInDecayOf(part2, part, genParticles):
+                        if deltaR(part2,jet) < 0.3:
+                            matched = True
+                            break
                 if matched: break
-                if (part.status != 23 or abs(part.pdgId)>5): continue
-                momid = abs(part.genPartIdxMother.pdgId)
-                if not (momid==6 or momid==23 or momid==24 or momid==25 or momid>1e6): continue
-                for idau in range(part.numberOfDaughters):
-                    dR = deltaR(jet.eta,jet.phi, part.daughter(idau).p4().eta,part.daughter(idau).p4().phi)
-                    if dR < 0.3:
-                        matched = True
-                        break
             if not matched:
-                event.nIsr+=1
+              nIsr+=1
 
-        self.wrappedOutputTree.fillBranch('nIsr', self.nIsr)
-
-        pass
-        return True
+        self.wrappedOutputTree.fillBranch("nIsr", nIsr)
+	return True
