@@ -1,5 +1,4 @@
 import os
-from TTHAnalysis.cfg.run_susyStop4Body_nanoAOD_cfg.py import year, runData, runFastSim
 
 conf = dict(
         muPt = 3.5,
@@ -46,14 +45,7 @@ from CMGTools.TTHAnalysis.tools.nanoAOD.nISRcounter import nISRcounter
 
 nISR = nISRcounter(jetSel = lambda j : j.pt > 25 and abs(j.eta) < 2.4 and j.jetId > 0)
 
-from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import *
-
-jmeCorrections = createJMECorrector(isMC=runData, dataYear = year, jesUncert="All",isFastSim=runFastSim)
-#jmeCorrections = createJMECorrector(isMC=runData, dataYear = year, jesUncert="Total",isFastSim=runFastSim)
-
-#ttH_sequence_step1 = [lepSkim, lepMerge, autoPuWeight, yearTag, xsecTag, lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepMasses]
-
-s4b_sequence_step1 = [nISR, jmeCorrections,lepMerge, autoPuWeight, yearTag, xsecTag, lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepMasses]
+s4b_sequence_step1 = [nISR,lepMerge, autoPuWeight, yearTag, xsecTag, lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepMasses]
 
 #====
 from PhysicsTools.NanoAODTools.postprocessing.tools import deltaR

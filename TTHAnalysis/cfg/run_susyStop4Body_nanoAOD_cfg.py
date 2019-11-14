@@ -154,7 +154,14 @@ from CMGTools.TTHAnalysis.tools.nanoAOD.s4b_modules import *
 #from CMGTools.TTHAnalysis.tools.nanoAOD.ttH_modules import *
 from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import PostProcessor
 
-modules = s4b_sequence_step1
+from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import *
+
+jmeCorrections = createJMECorrector(isMC=runData, dataYear = year, jesUncert="All",isFastSim=runFastSim)
+#jmeCorrections = createJMECorrector(isMC=runData, dataYear = year, jesUncert="Total",isFastSim=runFastSim)
+
+#ttH_sequence_step1 = [lepSkim, lepMerge, autoPuWeight, yearTag, xsecTag, lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepMasses]
+
+modules = s4b_sequence_step1 + [jmeCorrections]
 cut = None
 compression = "ZLIB:3" #"LZ4:4" #"LZMA:9"
 branchsel_in = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/python/tools/nanoAOD/branchsel_in.txt"
