@@ -27,7 +27,7 @@ runWJets = getHeppyOption("runWJets", False)
 runZInv = getHeppyOption("runZInv", False)
 runOtherMC1 = getHeppyOption("runOtherMC1", False)
 runOtherMC2 = getHeppyOption("runOtherMC2", False)
-runSMS = getHeppyOption("runSMS",False)
+runFastSim = getHeppyOption("runFastSim",False)
 runFullSimSignal = getHeppyOption("runFullSimSignal",False)
 runData = getHeppyOption("runData",False)
 
@@ -175,11 +175,6 @@ from PhysicsTools.Heppy.analyzers.gen.LHEAnalyzer import LHEAnalyzer
 LHEAna = LHEAnalyzer.defaultConfig
 susyCoreSequence.insert(susyCoreSequence.index(ttHCoreEventAna),LHEAna)
 
-#ISR jet counting
-from CMGTools.TTHAnalysis.analyzers.nIsrAnalyzer import NIsrAnalyzer
-nISRAna = cfg.Analyzer(NIsrAnalyzer, name="NIsrAnalyzer",)
-susyCoreSequence.insert(susyCoreSequence.index(ttHCoreEventA a), nISRAna)
-
 # =======================================================
 
 
@@ -314,7 +309,7 @@ if removeJetReCalibration:
         jetAnaScaleUp.recalibrateJets   = False
         jetAnaScaleDown.recalibrateJets = False
 
-if runSMS:
+if runFastSim:
     myMCGlobalTag = "Spring16_FastSimV1_MC"
     jetAna.applyL2L3Residual = False
     jetAna.relaxJetId = True # relax jetId for FastSIM
@@ -425,7 +420,7 @@ treeProducer = cfg.Analyzer(
      collections = susyStop4Body_collections,
 )
 
-if not runSMS:
+if not runFastSim:
     susyScanAna.doLHE = False # until a proper fix is put in the analyzer
     susyScanAna.useLumiInfo = False
     susyCoreSequence.insert(susyCoreSequence.index(skimAnalyzer), susyCounter)
@@ -450,7 +445,7 @@ if runOtherMC1:
         comp.splitFactor = 2800
 if runOtherMC2:
         comp.splitFactor = 1100
-if runSMS:
+if runFastSim:
         comp.splitFactor = 500
 if runFullSimSignal:
         comp.splitFactor = 500
