@@ -45,7 +45,7 @@ from CMGTools.TTHAnalysis.tools.nanoAOD.nISRcounter import nISRcounter
 
 nISR = nISRcounter(jetSel = lambda j : j.pt > 25 and abs(j.eta) < 2.4 and j.jetId > 0)
 
-s4b_sequence_step1 = [nISR,lepMerge, autoPuWeight, yearTag, xsecTag, lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepMasses]
+s4b_sequence_step1 = [lepMerge, autoPuWeight, yearTag, xsecTag, lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepMasses]
 
 #====
 from PhysicsTools.NanoAODTools.postprocessing.tools import deltaR
