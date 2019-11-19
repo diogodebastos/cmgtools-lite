@@ -84,7 +84,7 @@ if runTTJets:   MCs += ["TTJets", "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
 if runWJets:    MCs += ["WJetsToLNu_HT.*"] # WJets
 if runZInv:     MCs += ["ZJetsToNuNu_HT.*"] # ZJets
 if runOtherMC1: MCs += ["WW", "WZ", "ZZ", # Multiboson
-                        "DYJetsToLL_M50_HT.*"] # DYJets 
+                        "DYJetsToLL_M50_HT.*"] # DYJets
 if runOtherMC2: MCs += ["QCD_HT.*", # QCD - Multijet
                         "T_sch_lep","T_tch","TBar_tch","T_tWch_noFullyHad","TBar_tWch_noFullyHad", # Single Top
                         "TTGJets","TTW_LO","TTWToLNu_fxfx","TTZToLLNuNu_amc"] # ttbarX
@@ -148,11 +148,14 @@ branchsel_out = None
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import *
 from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import PostProcessor
 
+if runFastSim:
+    modules += [stopMasses]
+
 if runData:
   for comp in selectedComponents:
       era = extractEra(comp.name)[-1]
       jmeCorrections = createJMECorrector(isMC=not runData, dataYear = year, runPeriod=era, jesUncert="Total",isFastSim=runFastSim)
-      modules += [jmeCorrections] 
+      modules += [jmeCorrections]
       POSTPROCESSOR = PostProcessor(None, [], modules = modules, cut = cut, prefetch = True, longTermCache = False, branchsel = branchsel_in, outputbranchsel = branchsel_out, compression = compression)
       del modules[-1]
       print "comp.name: ", comp.name

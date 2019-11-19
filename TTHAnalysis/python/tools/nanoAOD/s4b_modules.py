@@ -43,6 +43,7 @@ from CMGTools.TTHAnalysis.tools.nanoAOD.xsecTagger import xsecTag
 from CMGTools.TTHAnalysis.tools.nanoAOD.lepJetBTagAdder import lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepJetBTagDeepFlavC
 from CMGTools.TTHAnalysis.tools.nanoAOD.nISRcounter import nISRcounter
 from CMGTools.TTHAnalysis.tools.nanoAOD.absIsoProducer import absIso
+from CMGTools.TTHAnalysis.tools.nanoAOD.s4bSusyMasses import stopMasses
 
 nISR = nISRcounter(jetSel = lambda j : j.pt > 25 and abs(j.eta) < 2.4 and j.jetId > 0)
 

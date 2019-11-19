@@ -24,16 +24,19 @@ class nISRcounter( Module ):
     def beginFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         self.wrappedOutputTree = wrappedOutputTree
         self.wrappedOutputTree.branch("nIsr","F")
+        self.isMC = bool(inputTree.GetBranch("GenJet_pt"))
 
     def analyze(self, event):
+        #Can only be performed on MC
+        #if not isMC: return True
+        if not self.isMC: return True
+
         leps = [ x for x in Collection(event, "Electron")] + [ x for x in Collection(event, "Muon")]
         jets = [ x for x in Collection(event, "Jet")]
         genParticles = [ x for x in Collection(event, "GenPart")]
         #jets = filter(self.jetSel, Collection(event, 'Jet'))
         #genParticles = Collection(event, 'GenPart')
 
-        #Can only be performed on MC
-        #if not isMC: return True
         nIsr = 0
         for jet in jets:
             matched = False
