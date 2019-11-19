@@ -21,7 +21,7 @@ class absIsoProducer(Module):
   def __init__(self):
     self.elBr_base = "Electron"
     self.muBr_base = "Muon"
-    self.elCorr = "eCorr"
+#    self.elCorr = "eCorr"
 
     self.relBranches_all = [
       "miniPFRelIso_all",
@@ -55,7 +55,8 @@ class absIsoProducer(Module):
     for lepBr_base in [self.elBr_base, self.muBr_base]:
       leps = Collection(event, lepBr_base)
       isElectron = lepBr_base == self.elBr_base
-      ptCorrFactors = [getattr(lep, self.elCorr) for lep in leps] if isElectron else ([1.] * len(leps))
+      ptCorrFactors = [1.] * len(leps)
+#      ptCorrFactors = [getattr(lep, self.elCorr) for lep in leps] if isElectron ele [1.] * len(leps))
       ptCorrs = [pt / ptCorrFactor for pt, ptCorrFactor in zip([lep.pt for lep in leps], ptCorrFactors)]
 
       for relBrNeu in self.relBranches_neu:
