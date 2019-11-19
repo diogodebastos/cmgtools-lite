@@ -42,11 +42,11 @@ from CMGTools.TTHAnalysis.tools.nanoAOD.yearTagger import yearTag
 from CMGTools.TTHAnalysis.tools.nanoAOD.xsecTagger import xsecTag
 from CMGTools.TTHAnalysis.tools.nanoAOD.lepJetBTagAdder import lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepJetBTagDeepFlavC
 from CMGTools.TTHAnalysis.tools.nanoAOD.nISRcounter import nISRcounter
-from CMGTools.TTHAnalysis.tools.nanoAOD.nISRcounter import absIsoProducer
+from CMGTools.TTHAnalysis.tools.nanoAOD.absIsoProducer import absIso
 
 nISR = nISRcounter(jetSel = lambda j : j.pt > 25 and abs(j.eta) < 2.4 and j.jetId > 0)
 
-s4b_sequence_step1 = [lepMerge, autoPuWeight, yearTag, xsecTag, absIsoProducer, lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepMasses]
+s4b_sequence_step1 = [absIso, lepMerge, autoPuWeight, yearTag, xsecTag, lepJetBTagCSV, lepJetBTagDeepCSV, lepJetBTagDeepFlav, lepMasses]
 
 #====
 from PhysicsTools.NanoAODTools.postprocessing.tools import deltaR

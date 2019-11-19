@@ -7,9 +7,6 @@ from CMGTools.RootTools.samples.configTools import printSummary, mergeExtensions
 from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 from CMGTools.RootTools.samples.autoAAAconfig import autoAAA
 
-from CMGTools.TTHAnalysis.analyzers.treeProducerStop4Body import *
-from CMGTools.TTHAnalysis.analyzers.susyCore_modules_cff import *
-
 from CMGTools.RootTools.samples.ComponentCreator import ComponentCreator
 kreator = ComponentCreator()
 
