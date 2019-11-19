@@ -1,12 +1,16 @@
 from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collection
+import math
 
 class stopNeutralinoMasses( Module ):
     def __init__(self):
+        pass
 
     def beginFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
+        self.wrappedOutputTree = wrappedOutputTree 
         self.wrappedOutputTree.branch("GenSusyMStop","F")
         self.wrappedOutputTree.branch("GenSusyMNeutralino","F")
+
     def analyze(self, event):
         genParticles = [ x for x in Collection(event, "GenPart")]
 
