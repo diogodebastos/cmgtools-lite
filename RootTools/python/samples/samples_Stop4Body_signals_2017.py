@@ -16,7 +16,7 @@ SMS_T2_4bd_genMET_80_mStop_500_mLSP_490 = kreator.makeMCComponent("SMS_T2_4bd_ge
 ## FastSIM ##
 SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1 = kreator.makeMCComponent("SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1","/SMS-T2tt_dM-10to80_genHT-160_genMET-80_mWMin-0p1_TuneCP2_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PUFall17Fast_94X_mc2017_realistic_v15-v1/MINIAODSIM","CMS", ".*root", useAAA = True)
 
-SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1_ext1 = kreator.makeMCComponent("SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1","/SMS-T2tt_dM-10to80_genHT-160_genMET-80_mWMin-0p1_TuneCP2_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PUFall17Fast_94X_mc2017_realistic_v15_ext1-v1/MINIAODSIM","CMS", ".*root", useAAA = True)
+SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1_ext1 = kreator.makeMCComponent("SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1_ext1","/SMS-T2tt_dM-10to80_genHT-160_genMET-80_mWMin-0p1_TuneCP2_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PUFall17Fast_94X_mc2017_realistic_v15_ext1-v1/MINIAODSIM","CMS", ".*root", useAAA = True)
 
 signalFullSim = [
 SMS_T2_4bd_genMET_80_mStop_500_mLSP_420,
