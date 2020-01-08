@@ -60,6 +60,7 @@ else:
         from CMGTools.RootTools.samples.samples_13TeV_DATA2018_NanoAOD import dataSamples_1June2019 as allData
     elif year == 2017:
         from CMGTools.RootTools.samples.samples_13TeV_RunIIFall17NanoAODv4 import samples as mcSamples_
+        from CMGTools.RootTools.samples.samples_Stop4Body_signalsNanoAOD_2017 import samples as signalSamples_
         from CMGTools.RootTools.samples.samples_13TeV_DATA2017_NanoAOD import dataSamples_1June2019 as allData
     elif year == 2016:
         from CMGTools.RootTools.samples.samples_13TeV_RunIISummer16NanoAODv4 import samples as mcSamples_
@@ -91,7 +92,7 @@ if runOtherMC2: MCs += ["QCD_HT.*", # QCD - Multijet
                         "TTGJets","TTW_LO","TTWToLNu_fxfx","TTZToLLNuNu_amc"] # ttbarX
 #"QCD_Mu15", "QCD_Pt(20|30|50|80|120|170)to.*_Mu5",
 
-if runFastSim:  MCs += ["SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1"] 
+if runFastSim:  MCs += ["SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1"]
 
 mcSamples = byCompName(mcSamples_, ["%s(|_PS)$"%dset for dset in MCs])
 signalSamples = byCompName(signalSamples_,["%s"%dset for dset in MCs])
@@ -123,7 +124,7 @@ for pd, trigs in DatasetsAndTriggers:
 selectedComponents = mcSamples + dataSamples + signalSamples
 
 if runTTJets or runWJets or runZInv or runOtherMC1 or runOtherMC2:
-  selectedComponents = mcSamples 
+  selectedComponents = mcSamples
 elif runFastSim:
   selectedComponents = signalSamples
 elif runData:
