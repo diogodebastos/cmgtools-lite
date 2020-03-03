@@ -12,7 +12,7 @@ conf = dict(
 
 s4b_skim_cut = ("nMuon + nElectron > 0 &&" +
        "Sum$(Muon_pt > {muPt} && Muon_miniPFRelIso_all < {miniRelIso} && Muon_sip3d < {sip3d}) +"
-       "Sum$(Electron_pt > {elePt} && Electron_miniPFRelIso_all < {miniRelIso} && Electron_sip3d < {sip3d}").format(**conf)
+       "Sum$(Electron_pt > {elePt} && Electron_miniPFRelIso_all < {miniRelIso} && Electron_sip3d < {sip3d})").format(**conf)
 
 
 #s4b_skim_cut = ("nMuon + nElectron >= 2 &&" +
