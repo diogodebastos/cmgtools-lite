@@ -15,6 +15,19 @@ def isInDecayOf(daught, mother, gens):
             break
     return isIn
 
+def getRightParentage( gen, gens):
+    parentage = []
+    idx = gens.index(gen)
+
+    while (idx > -1):
+        if abs(gens[idx].pdgId) == 6: return True
+        if abs(gens[idx].pdgId) == 23: return True
+        if abs(gens[idx].pdgId) == 24: return True
+        if abs(gens[idx].pdgId) == 25: return True
+        if abs(gens[idx].pdgId) > 99999: return True
+        idx = gens[idx].genPartIdxMother
+    return False
+
 class nISRcounter( Module ):
     def __init__(self,
             jetSel = lambda jet : True):
@@ -33,9 +46,11 @@ class nISRcounter( Module ):
 
         leps = [ x for x in Collection(event, "Electron")] + [ x for x in Collection(event, "Muon")]
         jets = [ x for x in Collection(event, "Jet")]
-        genParticles = [ x for x in Collection(event, "GenPart")]
+        gens = [ x for x in Collection(event, "GenPart")]
         #jets = filter(self.jetSel, Collection(event, 'Jet'))
-        #genParticles = Collection(event, 'GenPart')
+        #gens = Collection(event, 'GenPart')
+
+        jets = filter( lambda x : x.pt > 35 and abs(x.eta) < 2.4, jets)
 
         nIsr = 0
         for jet in jets:
@@ -46,20 +61,26 @@ class nISRcounter( Module ):
                     skip = True
                     break
             if skip: continue
-            for part in genParticles:
-                if part.status != 23 or abs(part.pdgId)>5: continue
-                if part.genPartIdxMother < 0: continue
-                mom = genParticles[part.genPartIdxMother]
-                momid = abs(mom.pdgId)
-                if momid not in [6,23,24,25] and momid < 1e6: continue
-                for part2 in genParticles:
-                    if isInDecayOf(part2, part, genParticles):
-                        if deltaR(part2,jet) < 0.3:
-                            matched = True
-                            break
-                if matched: break
+            for gen in gens:
+                if abs(gen.pdgId)>5 or gen.status != 23: continue
+                if gen.genPartIdxMother < 0: continue
+#                mom = gens[gen.genPartIdxMother]
+#                momid = abs(mom.pdgId)
+#                if momid not in [6,23,24,25] and momid < 1e6: continue
+#                for gen2 in gens:
+#                    if isInDecayOf(gen2, gen, gens):
+#                        if deltaR(gen2,jet) < 0.3:
+#                            matched = True
+#                            break
+#                if matched: break
+#            if not matched:
+#              nIsr+=1
+                if deltaR( jet, gen) > 0.3: continue
+                if not getRightParentage( gen, gens): continue
+                matched = True
+                break
             if not matched:
-              nIsr+=1
+                nIsr+=1
 
         self.wrappedOutputTree.fillBranch("nIsr", nIsr)
 	return True

@@ -82,11 +82,12 @@ elif year == 2016:
 DatasetsAndTriggers = []
 
 MCs = []
-if runTTJets:   MCs += ["TTJets", "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
+#if runTTJets:   MCs += ["TTJets", "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
+if runTTJets:   MCs += ["TTJets"]#, "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
 if runWJets:    MCs += ["WJetsToLNu_HT.*"] # WJets
 if runZInv:     MCs += ["ZJetsToNuNu_HT.*"] # ZJets
 if runOtherMC1: MCs += ["WW", "WZ", "ZZ", # Multiboson
-                        "DYJetsToLL_M50_HT.*"] # DYJets
+                        ]#"DYJetsToLL_M50_HT.*"] # DYJets
 if runOtherMC2: MCs += ["QCD_HT.*", # QCD - Multijet
                         "T_sch_lep","T_tch","TBar_tch","T_tWch_noFullyHad","TBar_tWch_noFullyHad", # Single Top
                         "TTGJets","TTW_LO","TTWToLNu_fxfx","TTZToLLNuNu_amc"] # ttbarX
@@ -97,8 +98,10 @@ if runFastSim:  MCs += ["SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1"]
 mcSamples = byCompName(mcSamples_, ["%s(|_PS)$"%dset for dset in MCs])
 signalSamples = byCompName(signalSamples_,["%s"%dset for dset in MCs])
 
+#MCs += ["WJetsToLNu_HT.*","ZJetsToNuNu_HT.*","WW", "WZ", "ZZ","DYJetsToLL_M50_HT.*","QCD_HT.*", "T_sch_lep","T_tch","TBar_tch","T_tWch_noFullyHad","TBar_tWch_noFullyHad","TTGJets","TTW_LO","TTWToLNu_fxfx","TTZToLLNuNu_amc","SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1"]
+
 DatasetsAndTriggers.append(("MET",triggers["met"]))
-DatasetsAndTriggers.append(("JetHT",triggers["pfht"]))
+#DatasetsAndTriggers.append(("JetHT",triggers["pfht"]))
 #DatasetsAndTriggers.append( ("SingleMuon", triggers["1mu_iso"]) )
 #DatasetsAndTriggers.append( ("SingleElectron", triggers["1e_iso"]) if year != 2018 else (None,None) )
 #DatasetsAndTriggers.append( ("DoubleMuon", triggers["mumu_iso"] + triggers["3mu"]) )
@@ -146,7 +149,7 @@ if justSummary:
 
 from CMGTools.TTHAnalysis.tools.nanoAOD.s4b_modules import *
 modules = s4b_sequence_step1
-cut = None
+cut = s4b_skim_cut
 compression = "ZLIB:3" #"LZ4:4" #"LZMA:9"
 branchsel_in = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/python/tools/nanoAOD/branchsel_in.txt"
 #branchsel_in = None
