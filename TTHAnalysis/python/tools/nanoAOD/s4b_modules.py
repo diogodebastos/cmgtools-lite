@@ -3,16 +3,20 @@ import os
 conf = dict(
         muPt = 3.5,
         elePt = 5,
-        miniRelIso = 0.4, #0.5
+        #miniRelIso = 0.4, #0.5
         sip3d = 8,
         dxy =  0.1, #0.1
         dz = 0.5, #0.5
         #eleId = "mvaFall17V2noIso_WPL", #POG_Cuts_ID_SPRING15_25ns_v1_ConvVeto_Veto
 )
 
+# s4b_skim_cut = ("nMuon + nElectron > 0 &&" +
+#       "Sum$(Muon_pt > {muPt} && Muon_miniPFRelIso_all < {miniRelIso} && Muon_sip3d < {sip3d}) +"
+#       "Sum$(Electron_pt > {elePt} && Electron_miniPFRelIso_all < {miniRelIso} && Electron_sip3d < {sip3d})").format(**conf)
+
 s4b_skim_cut = ("nMuon + nElectron > 0 &&" +
-       "Sum$(Muon_pt > {muPt} && Muon_miniPFRelIso_all < {miniRelIso} && Muon_sip3d < {sip3d}) +"
-       "Sum$(Electron_pt > {elePt} && Electron_miniPFRelIso_all < {miniRelIso} && Electron_sip3d < {sip3d})").format(**conf)
+       "Sum$(Muon_pt > {muPt} && Muon_sip3d < {sip3d}) +"
+       "Sum$(Electron_pt > {elePt} && Electron_sip3d < {sip3d})").format(**conf)
 
 
 #s4b_skim_cut = ("nMuon + nElectron >= 2 &&" +
