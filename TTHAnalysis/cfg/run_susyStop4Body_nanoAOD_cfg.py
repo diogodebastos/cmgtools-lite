@@ -137,8 +137,8 @@ else:
 
 autoAAA(selectedComponents, quiet=not(getHeppyOption("verboseAAA",False)), redirectorAAA="xrootd-cms.infn.it")
 
-configureSplittingFromTime(mcSamples,  150 if preprocessor else 10,12)
-configureSplittingFromTime(dataSamples,100 if preprocessor else 5 ,12)
+configureSplittingFromTime(mcSamples,  150 if preprocessor else 10,4)
+configureSplittingFromTime(dataSamples,100 if preprocessor else 5 ,4)
 
 selectedComponents, _ = mergeExtensions(selectedComponents)
 
@@ -149,7 +149,10 @@ if justSummary:
 
 from CMGTools.TTHAnalysis.tools.nanoAOD.s4b_modules import *
 modules = s4b_sequence_step1
-cut = s4b_skim_cut
+if runFastSim:
+    cut = ""
+else:
+    cut = s4b_skim_cut
 compression = "ZLIB:3" #"LZ4:4" #"LZMA:9"
 branchsel_in = os.environ['CMSSW_BASE']+"/src/CMGTools/TTHAnalysis/python/tools/nanoAOD/branchsel_in.txt"
 #branchsel_in = None
