@@ -31,6 +31,7 @@ runOtherMC2 = getHeppyOption("runOtherMC2", False)
 runFastSim = getHeppyOption("runFastSim",False)
 runFullSimSignal = getHeppyOption("runFullSimSignal",False)
 runData = getHeppyOption("runData",False)
+runDataJetHT = getHeppyOption("runDataJetHT",False)
 
 removeJetReCalibration = getHeppyOption("removeJetReCalibration",False)
 removeJecUncertainty = getHeppyOption("removeJecUncertainty",False)
@@ -100,8 +101,8 @@ signalSamples = byCompName(signalSamples_,["%s"%dset for dset in MCs])
 
 #MCs += ["WJetsToLNu_HT.*","ZJetsToNuNu_HT.*","WW", "WZ", "ZZ","DYJetsToLL_M50_HT.*","QCD_HT.*", "T_sch_lep","T_tch","TBar_tch","T_tWch_noFullyHad","TBar_tWch_noFullyHad","TTGJets","TTW_LO","TTWToLNu_fxfx","TTZToLLNuNu_amc","SMS_T2tt_dM_10to80_genHT_160_genMET_80_mWMin_0p1"]
 
-DatasetsAndTriggers.append(("MET",triggers["met"]))
-#DatasetsAndTriggers.append(("JetHT",triggers["pfht"]))
+if runData:      DatasetsAndTriggers.append(("MET",triggers["met"]))
+if runDataJetHT: DatasetsAndTriggers.append(("JetHT",triggers["pfht"]))
 #DatasetsAndTriggers.append( ("SingleMuon", triggers["1mu_iso"]) )
 #DatasetsAndTriggers.append( ("SingleElectron", triggers["1e_iso"]) if year != 2018 else (None,None) )
 #DatasetsAndTriggers.append( ("DoubleMuon", triggers["mumu_iso"] + triggers["3mu"]) )
@@ -126,11 +127,13 @@ for pd, trigs in DatasetsAndTriggers:
 
 selectedComponents = mcSamples + dataSamples + signalSamples
 
+isMC = not (runData or runDataJetHT)
+
 if runTTJets or runWJets or runZInv or runOtherMC1 or runOtherMC2:
   selectedComponents = mcSamples
 elif runFastSim:
   selectedComponents = signalSamples
-elif runData:
+elif runData or runDataJetHT:
   selectedComponents = dataSamples
 else:
   selectedComponents = byCompName(selectedComponents, getHeppyOption('selectComponents').split(","))
@@ -149,7 +152,7 @@ if justSummary:
 
 from CMGTools.TTHAnalysis.tools.nanoAOD.s4b_modules import *
 modules = s4b_sequence_step1
-if runFastSim:
+if runFastSim or runWJets or runDataJetHT:
     cut = ""
 else:
     cut = s4b_skim_cut
@@ -164,16 +167,16 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import Pos
 if runFastSim:
     modules += [stopMasses]
 
-if runData:
+if not isMC:
   for comp in selectedComponents:
       era = extractEra(comp.name)[-1]
-      jmeCorrections = createJMECorrector(isMC=not runData, dataYear = year, runPeriod=era, jesUncert="Total")
+      jmeCorrections = createJMECorrector(isMC=isMC, dataYear = year, runPeriod=era, jesUncert="Total")
       modules += [jmeCorrections]
       POSTPROCESSOR = PostProcessor(None, [], modules = modules, cut = cut, prefetch = True, longTermCache = False, branchsel = branchsel_in, outputbranchsel = branchsel_out, compression = compression)
       del modules[-1]
       print "comp.name: ", comp.name
       print "era: ", era
 else:
-  jmeCorrections = createJMECorrector(isMC=not runData, dataYear = year, jesUncert="Total",isFastSim=runFastSim)
+  jmeCorrections = createJMECorrector(isMC=isMC, dataYear = year, jesUncert="Total",isFastSim=runFastSim)
   modules += [jmeCorrections, nISR]
   POSTPROCESSOR = PostProcessor(None, [], modules = modules, cut = cut, prefetch = True, longTermCache = False, branchsel = branchsel_in, outputbranchsel = branchsel_out, compression = compression)
