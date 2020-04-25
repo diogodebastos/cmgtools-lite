@@ -18,6 +18,7 @@ s4b_skim_cut = ("nMuon + nElectron > 0 &&" +
        "Sum$(Muon_pt > {muPt} && Muon_sip3d < {sip3d}) +"
        "Sum$(Electron_pt > {elePt} && Electron_sip3d < {sip3d})").format(**conf)
 
+s4b_skim_cut_FR = s4b_skim_cut + "&& (MET_pt < 60)"
 
 #s4b_skim_cut = ("nMuon + nElectron >= 2 &&" +
 #       "Sum$(Muon_pt > {muPt} && Muon_miniPFRelIso_all < {miniRelIso} && Muon_sip3d < {sip3d}) +"

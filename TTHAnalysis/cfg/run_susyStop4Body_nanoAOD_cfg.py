@@ -152,8 +152,10 @@ if justSummary:
 
 from CMGTools.TTHAnalysis.tools.nanoAOD.s4b_modules import *
 modules = s4b_sequence_step1
-if runFastSim or runWJets or runDataJetHT:
+if runFastSim or runWJets:
     cut = ""
+elif runDataJetHT:
+    cut = s4b_skim_cut_FR
 else:
     cut = s4b_skim_cut
 compression = "ZLIB:3" #"LZ4:4" #"LZMA:9"
