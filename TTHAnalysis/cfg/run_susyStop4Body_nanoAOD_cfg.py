@@ -85,7 +85,8 @@ DatasetsAndTriggers = []
 MCs = []
 #if runTTJets:   MCs += ["TTJets", "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
 if runTTJets:   MCs += ["TTJets"]#, "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
-if runWJets:    MCs += ["WJetsToLNu_HT.*"] # WJets
+#if runWJets:    MCs += ["WJetsToLNu_HT.*"] # WJets
+if runWJets:    MCs += ["W.*JetsToLNu_LO"] # WJets
 if runZInv:     MCs += ["ZJetsToNuNu_HT.*"] # ZJets
 if runOtherMC1: MCs += ["WW", "WZ", "ZZ", # Multiboson
                         ]#"DYJetsToLL_M50_HT.*"] # DYJets
@@ -144,6 +145,33 @@ configureSplittingFromTime(mcSamples,  150 if preprocessor else 10,4)
 configureSplittingFromTime(dataSamples,100 if preprocessor else 5 ,4)
 
 selectedComponents, _ = mergeExtensions(selectedComponents)
+
+# create and set preprocessor if requested
+if preprocessor:
+    from CMGTools.Production.nanoAODPreprocessor import nanoAODPreprocessor
+    preproc_cfg = {2016: ("mc94X2016","data94X2016"),
+                   2017: ("mc94Xv2","data94Xv2"),
+                   2018: ("mc102X","data102X_ABC","data102X_D")}
+    preproc_cmsswArea = "/afs/cern.ch/user/p/peruzzi/work/cmgtools_tth/CMSSW_10_2_16_UL"
+    preproc_mc = nanoAODPreprocessor(cfg='%s/src/PhysicsTools/NanoAOD/test/%s_NANO.py'%(preproc_cmsswArea,preproc_cfg[year][0]),cmsswArea=preproc_cmsswArea,keepOutput=True)
+    if year==2018:
+        preproc_data_ABC = nanoAODPreprocessor(cfg='%s/src/PhysicsTools/NanoAOD/test/%s_NANO.py'%(preproc_cmsswArea,preproc_cfg[year][1]),cmsswArea=preproc_cmsswArea,keepOutput=True,injectTriggerFilter=True,injectJSON=True)
+        preproc_data_D = nanoAODPreprocessor(cfg='%s/src/PhysicsTools/NanoAOD/test/%s_NANO.py'%(preproc_cmsswArea,preproc_cfg[year][2]),cmsswArea=preproc_cmsswArea,keepOutput=True,injectTriggerFilter=True,injectJSON=True)
+        for comp in selectedComponents:
+            if comp.isData:
+                comp.preprocessor = preproc_data_D if '2018D' in comp.name else preproc_data_ABC
+            else:
+                comp.preprocessor = preproc_mc
+    else:
+        preproc_data = nanoAODPreprocessor(cfg='%s/src/PhysicsTools/NanoAOD/test/%s_NANO.py'%(preproc_cmsswArea,preproc_cfg[year][1]),cmsswArea=preproc_cmsswArea,keepOutput=True,injectTriggerFilter=True,injectJSON=True)
+        for comp in selectedComponents:
+            comp.preprocessor = preproc_data if comp.isData else preproc_mc
+    if year==2017:
+        preproc_mcv1 = nanoAODPreprocessor(cfg='%s/src/PhysicsTools/NanoAOD/test/%s_NANO.py'%(preproc_cmsswArea,"mc94Xv1"),cmsswArea=preproc_cmsswArea,keepOutput=True)
+        for comp in selectedComponents:
+            if comp.isMC and "Fall17MiniAODv2" not in comp.dataset:
+                print "Warning: %s is MiniAOD v1, dataset %s" % (comp.name, comp.dataset)
+                comp.preprocessor = preproc_mcv1
 
 # print summary of components to process
 if justSummary:
