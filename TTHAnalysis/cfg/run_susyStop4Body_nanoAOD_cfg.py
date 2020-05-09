@@ -43,17 +43,17 @@ allGenParts = getHeppyOption("allGenParts", False)
 
 if preprocessor:
     if year == 2018:
-        from CMGTools.RootTools.samples.samples_13TeV_RunIIAutumn18MiniAOD import *
-        from CMGTools.RootTools.samples.samples_Stop4Body_signals_2018 import *
-        from CMGTools.RootTools.samples.samples_13TeV_DATA2018_MiniAOD import *
+        from CMGTools.RootTools.samples.samples_13TeV_RunIIAutumn18MiniAOD import samples as mcSamples_
+        from CMGTools.RootTools.samples.samples_Stop4Body_signals_2018 import samples as signalSamples_
+        from CMGTools.RootTools.samples.samples_13TeV_DATA2018_MiniAOD import samples as allData
     elif year == 2017:
-        from CMGTools.RootTools.samples.samples_13TeV_RunIIFall17MiniAOD import *
-        from CMGTools.RootTools.samples.samples_Stop4Body_signals_2017 import *
-        from CMGTools.RootTools.samples.samples_13TeV_DATA2017 import *
+        from CMGTools.RootTools.samples.samples_13TeV_RunIIFall17MiniAOD import samples as mcSamples_
+        from CMGTools.RootTools.samples.samples_Stop4Body_signals_2017 import samples as signalSamples_
+        from CMGTools.RootTools.samples.samples_13TeV_DATA2017 import dataSamples_31Mar2018 as allData
     elif year == 2016:
-        from CMGTools.RootTools.samples.samples_13TeV_RunIISummer16MiniAODv2 import *
-        from CMGTools.RootTools.samples.samples_Stop4Body_signals_2016 import *
-        from CMGTools.RootTools.samples.samples_13TeV_DATA2016 import *
+        from CMGTools.RootTools.samples.samples_13TeV_RunIISummer16MiniAODv2 import samples as mcSamples_
+        from CMGTools.RootTools.samples.samples_Stop4Body_signals_2016 import samples as signalSamples_
+        from CMGTools.RootTools.samples.samples_13TeV_DATA2016 import dataSamples_17Jul2018 as allData
 else:
     if year == 2018:
         from CMGTools.RootTools.samples.samples_13TeV_RunIIAutumn18NanoAODv4 import samples as mcSamples_
