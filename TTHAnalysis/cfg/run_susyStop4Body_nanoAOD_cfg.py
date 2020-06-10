@@ -56,14 +56,15 @@ if preprocessor:
         from CMGTools.RootTools.samples.samples_13TeV_DATA2016 import dataSamples_17Jul2018 as allData
 else:
     if year == 2018:
-        from CMGTools.RootTools.samples.samples_13TeV_RunIIAutumn18NanoAODv4 import samples as mcSamples_
+        from CMGTools.RootTools.samples.samples_13TeV_RunIIAutumn18NanoAODv7 import samples as mcSamples_
         from CMGTools.RootTools.samples.samples_Stop4Body_signalsNanoAOD_2018 import samples as signalSamples_
         from CMGTools.RootTools.samples.samples_13TeV_DATA2018_NanoAOD import dataSamples_1June2019 as allData
     elif year == 2017:
-        from CMGTools.RootTools.samples.samples_13TeV_RunIIFall17NanoAODv4 import samples as mcSamples_
+        from CMGTools.RootTools.samples.samples_13TeV_RunIIFall17NanoAODv7 import samples as mcSamples_
         from CMGTools.RootTools.samples.samples_Stop4Body_signalsNanoAOD_2017 import samples as signalSamples_
         from CMGTools.RootTools.samples.samples_13TeV_DATA2017_NanoAOD import dataSamples_1June2019 as allData
     elif year == 2016:
+        # TODO: Move to v7 nanoAOD
         from CMGTools.RootTools.samples.samples_13TeV_RunIISummer16NanoAODv4 import samples as mcSamples_
         from CMGTools.RootTools.samples.samples_Stop4Body_signalsNanoAOD_2016 import samples as signalSamples_
         from CMGTools.RootTools.samples.samples_13TeV_DATA2016_NanoAOD import dataSamples_1June2019 as allData
@@ -84,13 +85,13 @@ elif year == 2016:
 DatasetsAndTriggers = []
 
 MCs = []
-#if runTTJets:   MCs += ["TTJets", "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
-if runTTJets:   MCs += ["TTJets"]#, "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
-#if runWJets:    MCs += ["WJetsToLNu_HT.*"] # WJets
-if runWJets:    MCs += ["W.*JetsToLNu_LO"] # WJets
+if runTTJets:   MCs += ["TTJets",
+                        "TT(Lep|Had|Semi)_pow"] # TTJets - ttbar
+if runWJets:    MCs += ["WJetsToLNu_HT.*",#] # WJets
+                        "W.*JetsToLNu_LO"] # WNJets
 if runZInv:     MCs += ["ZJetsToNuNu_HT.*"] # ZJets
 if runOtherMC1: MCs += ["WW", "WZ", "ZZ", # Multiboson
-                        ]#"DYJetsToLL_M50_HT.*"] # DYJets
+                        "DYJetsToLL_M4to50_HT.*", "DYJetsToLL_M50_HT.*"] # DYJets
 if runOtherMC2: MCs += ["QCD_HT.*", # QCD - Multijet
                         "T_sch_lep","T_tch","TBar_tch","T_tWch_noFullyHad","TBar_tWch_noFullyHad", # Single Top
                         "TTGJets","TTW_LO","TTWToLNu_fxfx","TTZToLLNuNu_amc"] # ttbarX
@@ -181,7 +182,7 @@ if justSummary:
 
 from CMGTools.TTHAnalysis.tools.nanoAOD.s4b_modules import *
 modules = s4b_sequence_step1
-if runFastSim or runWJets:
+if runFastSim or runWJets or runData:
     cut = ""
 elif runDataJetHT:
     cut = s4b_skim_cut_FR
