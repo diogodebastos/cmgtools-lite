@@ -226,9 +226,9 @@ if year == 2018:
     #https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2018Analysis#DATA
     myDataGlobalTag = [(1, "Autumn18_RunA_V8_DATA"),(316998,"Autumn18_RunB_V8_DATA"),(319313,"Autumn18_RunC_V8_DATA"),(320394,"Autumn18_RunD_V8_DATA")]
 elif year == 2017:
-    myMCGlobalTag = "Fall17_17Nov2017_V6_MC"
+    myMCGlobalTag = "Fall17_17Nov2017_V32_MC"
     # https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2017Analysis#DATA
-    myDataGlobalTag =  [(1,"Fall17_17Nov2017B_V6_DATA"),(299337,"Fall17_17Nov2017C_V6_DATA"),(302030,"Fall17_17Nov2017D_V6_DATA"),(303435,"Fall17_17Nov2017E_V6_DATA"),(304911,"Fall17_17Nov2017F_V6_DATA")]
+    myDataGlobalTag =  [(1,"Fall17_17Nov2017B_V32_DATA"),(299337,"Fall17_17Nov2017C_V32_DATA"),(302030,"Fall17_17Nov2017D_V32_DATA"),(303435,"Fall17_17Nov2017E_V32_DATA"),(304911,"Fall17_17Nov2017F_V32_DATA")]
 elif year == 2016:
     myMCGlobalTag = "Summer16_23Sep2016V3_MC"
     #myDataGlobalTag = "Spring16_25nsV8BCD_DATA Spring16_25nsV8E_DATA Spring16_25nsV8F_DATA Spring16_25nsV8_DATA"
