@@ -586,6 +586,7 @@ if runTTJets:
 
 if runWJets:
     selectedComponents = [
+        WJetsToLNu_HT70to100,
         WJetsToLNu_HT100to200,
         WJetsToLNu_HT200to400,
         WJetsToLNu_HT400to600,
